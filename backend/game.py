@@ -10,7 +10,8 @@ import orjson
 from backend.helpers import get_full_path
 
 MAX_GUESSES = 10
-WORDS = set(orjson.loads(open(get_full_path('data/words.json')).read()))
+WORDS = orjson.loads(open(get_full_path('data/words.json')).read())
+WORD_SET = set(WORDS)
 
 
 class LetterState(int, Enum):
@@ -106,6 +107,7 @@ class EndState:
 
 @dataclass
 class GameBasicInfo:
+    join_code: str
     player_names: List[str]
     utc_started: int | None
     utc_finished: int | None
@@ -113,6 +115,8 @@ class GameBasicInfo:
 
 @dataclass
 class Game:
+    join_code: str
+
     p1: Player | None
     p2: Player | None
 
@@ -122,23 +126,29 @@ class Game:
     utc_started: int | None
     utc_finished: int | None
 
-    def __init__(self):
+    def __init__(self, join_code):
+        self.join_code = join_code
         self.p1 = None
         self.p2 = None
         self.word1 = None
         self.word2 = None
+        self.utc_started = None
+        self.utc_finished = None
 
     def get_basic_info(self) -> GameBasicInfo:
         return GameBasicInfo(
             player_names=[p.name for p in (self.p1, self.p2) if p is not None],
             utc_started=self.utc_started,
-            utc_finished=self.utc_finished
+            utc_finished=self.utc_finished,
+            join_code=self.join_code
         )
 
-    def add_player(self, name: str, word: str) -> GameBasicInfo:
+    def add_player(self, name: str, word: str) -> Player:
         if self.p1 and self.p2:
             raise GameFullError()
-        if word not in WORDS:
+        if not name:
+            raise InvalidNameError()
+        if word not in WORD_SET:
             raise InvalidWordError()
         player = Player(name=name, secret_id=uuid4().hex)
         word = Word(word=word)
@@ -152,10 +162,12 @@ class Game:
             self.p2 = player
             self.word2 = word
             self.utc_started = int(datetime.now().timestamp())
-        return self.get_basic_info()
+        return player
 
-    def make_guess(self, guess: Guess) -> bool:
-        if not self.validate_guess(guess):
+    def make_guess(self, guess_word: str, player_secret: str) -> bool:
+        player = self.get_player(player_secret)
+        guess = Guess(guess_word=guess_word, player=player)
+        if not self.__validate_guess(guess):
             return False
         for word in (self.word1, self.word2):
             word.apply_guess(guess)
@@ -163,30 +175,28 @@ class Game:
             self.utc_finished = int(datetime.now().timestamp())
         return True
 
-    def validate_guess(self, guess: Guess) -> bool:
-        if guess.player.secret_id not in (self.p1.secret_id, self.p2.secret_id):
-            raise PlayerNotFoundError()
-        if guess.player.secret_id != self.get_player_with_current_turn().secret_id:
+    def __validate_guess(self, guess: Guess) -> bool:
+        if guess.player != self.__get_player_with_current_turn():
             raise NotPlayerTurnError()
-        guess_valid = isinstance(guess.guess_word, str) and guess.guess_word in WORDS
+        guess_valid = isinstance(guess.guess_word, str) and guess.guess_word in WORD_SET
         return guess_valid
 
     def get_client_state(self, player_secret: str) -> ClientState:
-        end_state = self.get_end_state()
-        curr_turn_player = self.get_player_with_current_turn()
-        if player_secret == self.p1.secret_id:
+        end_state = self.__get_end_state()
+        curr_turn_player = self.__get_player_with_current_turn()
+        player = self.get_player(player_secret)
+        if player == self.p1:
             return ClientState(player=self.p1, word=self.word1.word,
                                opponent_solve_state=self.word1.cumulative_solve_state,
                                letter_knowledge=self.word2.knowledge, guesses=self.word2.guesses,
                                end_state=end_state, currently_turn=self.p1 == curr_turn_player)
-        elif player_secret == self.p2.secret_id:
+        else:
             return ClientState(player=self.p2, word=self.word2.word,
                                opponent_solve_state=self.word2.cumulative_solve_state,
                                letter_knowledge=self.word1.knowledge, guesses=self.word1.guesses,
                                end_state=end_state, currently_turn=self.p2 == curr_turn_player)
-        raise PlayerNotFoundError()
 
-    def get_end_state(self) -> EndState | None:
+    def __get_end_state(self) -> EndState | None:
         if not self.word1.solved and not self.word2.solved:
             if len(self.word1.guesses) == MAX_GUESSES:
                 return EndState(tie=True, winner_name=None)
@@ -194,10 +204,17 @@ class Game:
         winner = self.p1 if self.word2.solved else self.p2
         return EndState(tie=False, winner_name=winner.name)
 
-    def get_player_with_current_turn(self) -> Player:
+    def __get_player_with_current_turn(self) -> Player:
         if len(self.word1.guesses) % 2 == 0:
             return self.p1
         return self.p2
+
+    def get_player(self, player_secret: str) -> Player:
+        if self.p1.secret_id == player_secret:
+            return self.p1
+        elif self.p2.secret_id == player_secret:
+            return self.p2
+        raise PlayerNotFoundError()
 
 
 class GameFullError(Exception):
@@ -213,6 +230,10 @@ class PlayerNotFoundError(Exception):
 
 
 class NotPlayerTurnError(Exception):
+    pass
+
+
+class InvalidNameError(Exception):
     pass
 
 
