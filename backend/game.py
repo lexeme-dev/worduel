@@ -62,7 +62,8 @@ class Word:
             curr_letter = self.word[i]
             # The enum values represent ascending amounts of knowledge, so we can update the state with max()
             self.knowledge[curr_letter] = max(self.knowledge[curr_letter], letter_result)
-            self.cumulative_solve_state[i] = max(self.cumulative_solve_state[i], letter_result)
+            if letter_result != LetterState.WRONG:  #
+                self.cumulative_solve_state[i] = max(self.cumulative_solve_state[i], letter_result)
 
     def __get_guess_result(self, guess: Guess) -> GuessResult:
         letter_results = []
@@ -107,7 +108,7 @@ class EndState:
 
 @dataclass
 class GameBasicInfo:
-    join_code: str
+    game_id: str
     player_names: List[str]
     utc_started: int | None
     utc_finished: int | None
@@ -115,7 +116,7 @@ class GameBasicInfo:
 
 @dataclass
 class Game:
-    join_code: str
+    game_id: str
 
     p1: Player | None
     p2: Player | None
@@ -123,11 +124,12 @@ class Game:
     word1: Word | None
     word2: Word | None
 
+    utc_ready: int | None
     utc_started: int | None
     utc_finished: int | None
 
-    def __init__(self, join_code):
-        self.join_code = join_code
+    def __init__(self, game_id):
+        self.game_id = game_id
         self.p1 = None
         self.p2 = None
         self.word1 = None
@@ -140,29 +142,35 @@ class Game:
             player_names=[p.name for p in (self.p1, self.p2) if p is not None],
             utc_started=self.utc_started,
             utc_finished=self.utc_finished,
-            join_code=self.join_code
+            game_id=self.game_id
         )
 
-    def add_player(self, name: str, word: str) -> Player:
+    def add_player(self, name: str) -> Player:
         if self.p1 and self.p2:
             raise GameFullError()
         if not name:
             raise InvalidNameError()
-        if word not in WORD_SET:
-            raise InvalidWordError()
         player = Player(name=name, secret_id=uuid4().hex)
-        word = Word(word=word)
         if self.p1 is None:
             self.p1 = player
-            self.word1 = word
         elif self.p2 is None:
             if self.p1.name == player.name:
                 raise PlayerNameTakenError()
             # TODO: Handle duplicate word selection (if we want to)
             self.p2 = player
-            self.word2 = word
-            self.utc_started = int(datetime.now().timestamp())
+            self.utc_ready = int(datetime.now().timestamp())
         return player
+
+    def select_word(self, word: str, player_secret: str):
+        if word not in WORD_SET:
+            raise InvalidWordError()
+        word = Word(word=word)
+        if self.get_player(player_secret) == self.p1:
+            self.word1 = word
+        else:
+            self.word2 = word
+        if self.word1 and self.word2:
+            self.utc_started = int(datetime.now().timestamp())
 
     def make_guess(self, guess_word: str, player_secret: str) -> bool:
         player = self.get_player(player_secret)

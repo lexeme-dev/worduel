@@ -12,30 +12,30 @@ class GameManager:
         self.current_games = {}
 
     def create_game(self) -> Game:
-        join_code = self.get_join_code()
-        new_game = Game(join_code=join_code)
-        self.current_games[join_code] = new_game
+        game_id = self.get_game_id()
+        new_game = Game(game_id=game_id)
+        self.current_games[game_id] = new_game
         return new_game
 
-    def get_game(self, join_code: str) -> Game:
-        if join_code not in self.current_games:
+    def get_game(self, game_id: str) -> Game:
+        if game_id not in self.current_games:
             raise GameNotFoundError()
-        return self.current_games[join_code]
+        return self.current_games[game_id]
 
     def cleanup_finished_games(self):
         cleanup_list = []
-        for join_code, game in self.current_games.items():
+        for game_id, game in self.current_games.items():
             if game.utc_finished:
-                cleanup_list.append(join_code)
-        for join_code in cleanup_list:
-            self.current_games.pop(join_code)
+                cleanup_list.append(game_id)
+        for game_id in cleanup_list:
+            self.current_games.pop(game_id)
 
-    def get_join_code(self) -> str:
-        code = "-".join(choices(WORDS, k=2))
-        if code in self.current_games:
+    def get_game_id(self) -> str:
+        game_id = "-".join(choices(WORDS, k=2))
+        if game_id in self.current_games:
             Thread(target=self.cleanup_finished_games).start()
-            return self.get_join_code()
-        return code
+            return self.get_game_id()
+        return game_id
 
 
 class GameNotFoundError(Exception):
