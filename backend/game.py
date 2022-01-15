@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+from datetime import datetime
 from enum import Enum
 from typing import Dict, List
 from uuid import uuid4
@@ -106,7 +107,8 @@ class EndState:
 @dataclass
 class GameBasicInfo:
     player_names: List[str]
-    started: bool
+    utc_started: int | None
+    utc_finished: int | None
 
 
 @dataclass
@@ -117,6 +119,9 @@ class Game:
     word1: Word | None
     word2: Word | None
 
+    utc_started: int | None
+    utc_finished: int | None
+
     def __init__(self):
         self.p1 = None
         self.p2 = None
@@ -126,11 +131,9 @@ class Game:
     def get_basic_info(self) -> GameBasicInfo:
         return GameBasicInfo(
             player_names=[p.name for p in (self.p1, self.p2) if p is not None],
-            started=self.game_started()
+            utc_started=self.utc_started,
+            utc_finished=self.utc_finished
         )
-
-    def game_started(self) -> bool:
-        return None not in (self.p1, self.p2)
 
     def add_player(self, name: str, word: str) -> GameBasicInfo:
         if self.p1 and self.p2:
@@ -148,6 +151,7 @@ class Game:
             # TODO: Handle duplicate word selection (if we want to)
             self.p2 = player
             self.word2 = word
+            self.utc_started = int(datetime.now().timestamp())
         return self.get_basic_info()
 
     def make_guess(self, guess: Guess) -> bool:
@@ -155,6 +159,8 @@ class Game:
             return False
         for word in (self.word1, self.word2):
             word.apply_guess(guess)
+        if self.word1.solved or self.word2.solved:
+            self.utc_finished = int(datetime.now().timestamp())
         return True
 
     def validate_guess(self, guess: Guess) -> bool:
