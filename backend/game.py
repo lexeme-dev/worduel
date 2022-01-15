@@ -175,6 +175,13 @@ class Game:
             self.utc_finished = int(datetime.now().timestamp())
         return True
 
+    def get_player(self, player_secret: str) -> Player:
+        if self.p1.secret_id == player_secret:
+            return self.p1
+        elif self.p2.secret_id == player_secret:
+            return self.p2
+        raise PlayerNotFoundError()
+
     def __validate_guess(self, guess: Guess) -> bool:
         if guess.player != self.__get_player_with_current_turn():
             raise NotPlayerTurnError()
@@ -208,13 +215,6 @@ class Game:
         if len(self.word1.guesses) % 2 == 0:
             return self.p1
         return self.p2
-
-    def get_player(self, player_secret: str) -> Player:
-        if self.p1.secret_id == player_secret:
-            return self.p1
-        elif self.p2.secret_id == player_secret:
-            return self.p2
-        raise PlayerNotFoundError()
 
 
 class GameFullError(Exception):
