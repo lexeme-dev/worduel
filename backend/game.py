@@ -62,7 +62,7 @@ class Word:
             curr_letter = self.word[i]
             # The enum values represent ascending amounts of knowledge, so we can update the state with max()
             self.knowledge[curr_letter] = max(self.knowledge[curr_letter], letter_result)
-            if letter_result != LetterState.WRONG:  #
+            if letter_result != LetterState.WRONG:  # WRONG is not relevant for the cumulative solve state
                 self.cumulative_solve_state[i] = max(self.cumulative_solve_state[i], letter_result)
 
     def __get_guess_result(self, guess: Guess) -> GuessResult:
@@ -110,6 +110,7 @@ class EndState:
 class GameBasicInfo:
     game_id: str
     player_names: List[str]
+    utc_ready: int | None
     utc_started: int | None
     utc_finished: int | None
 
@@ -134,12 +135,14 @@ class Game:
         self.p2 = None
         self.word1 = None
         self.word2 = None
+        self.utc_ready = None
         self.utc_started = None
         self.utc_finished = None
 
     def get_basic_info(self) -> GameBasicInfo:
         return GameBasicInfo(
             player_names=[p.name for p in (self.p1, self.p2) if p is not None],
+            utc_ready=self.utc_ready,
             utc_started=self.utc_started,
             utc_finished=self.utc_finished,
             game_id=self.game_id
