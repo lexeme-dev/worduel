@@ -7,7 +7,7 @@ from uuid import uuid4
 
 import orjson
 
-from backend.helpers import get_full_path
+from helpers import get_full_path
 
 MAX_GUESSES = 10
 WORDS = orjson.loads(open(get_full_path('data/words.json')).read())

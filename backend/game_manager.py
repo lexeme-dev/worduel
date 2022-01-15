@@ -2,7 +2,7 @@ from random import choices
 from threading import Thread
 from typing import Dict
 
-from backend.game import Game, WORDS
+from game import Game, WORDS
 
 
 class GameManager:

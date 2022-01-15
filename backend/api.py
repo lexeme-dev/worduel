@@ -1,8 +1,8 @@
 from flask import Flask, jsonify, abort, request
 
-from backend.game import InvalidNameError, InvalidWordError, PlayerNotFoundError
-from backend.game_manager import GameManager, GameNotFoundError
-from backend.helpers import ORJSONEncoder, ORJSONDecoder
+from game import InvalidNameError, InvalidWordError, PlayerNotFoundError
+from game_manager import GameManager, GameNotFoundError
+from helpers import ORJSONEncoder, ORJSONDecoder
 
 app = Flask(__name__)
 app.json_encoder = ORJSONEncoder
