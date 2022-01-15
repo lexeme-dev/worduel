@@ -6,8 +6,10 @@ from uuid import uuid4
 
 import orjson
 
+from backend.helpers import get_full_path
+
 MAX_GUESSES = 10
-WORDS = set(orjson.loads(open('data/words.json').read()))
+WORDS = set(orjson.loads(open(get_full_path('data/words.json')).read()))
 
 
 class LetterState(int, Enum):
@@ -25,13 +27,13 @@ SolveState = List[LetterState]
 
 @dataclass
 class Guess:
-    player_secret: str
-    guess: str
+    player: Player
+    guess_word: str
 
 
 @dataclass
 class GuessResult:
-    guess: Guess
+    guess_word: str
     player_name: str
     letter_results: SolveState
 
@@ -46,7 +48,7 @@ class Word:
 
     def __init__(self, word: str):
         self.word = word
-        self.knowledge = {}
+        self.knowledge = {chr(num): LetterState.UNKNOWN for num in range(ord('a'), ord('z') + 1)}
         self.cumulative_solve_state = [LetterState.UNKNOWN for _ in self.word]
         self.guesses = []
         self.solved = False
@@ -62,18 +64,18 @@ class Word:
 
     def __get_guess_result(self, guess: Guess) -> GuessResult:
         letter_results = []
-        for i, c in enumerate(guess.guess):
+        for i, c in enumerate(guess.guess_word):
             res: LetterState
-            if self.word[i] == guess:
+            if self.word[i] == c:
                 res = LetterState.RIGHT
             elif c in self.word:
                 res = LetterState.PRESENT
             else:
                 res = LetterState.WRONG
             letter_results.append(res)
-        if self.word == guess:
+        if self.word == guess.guess_word:
             self.solved = True
-        return GuessResult(guess=guess, letter_results=letter_results)
+        return GuessResult(guess_word=guess.guess_word, letter_results=letter_results, player_name=guess.player.name)
 
 
 @dataclass
@@ -104,23 +106,33 @@ class EndState:
 @dataclass
 class GameBasicInfo:
     player_names: List[str]
+    started: bool
 
 
 @dataclass
 class Game:
-    p1: Player
-    p2: Player
+    p1: Player | None
+    p2: Player | None
 
-    word1: Word
-    word2: Word
+    word1: Word | None
+    word2: Word | None
 
     def __init__(self):
-        pass
+        self.p1 = None
+        self.p2 = None
+        self.word1 = None
+        self.word2 = None
 
     def get_basic_info(self) -> GameBasicInfo:
-        return GameBasicInfo(player_names=[p.name for p in (self.p1, self.p2) if p is not None])
+        return GameBasicInfo(
+            player_names=[p.name for p in (self.p1, self.p2) if p is not None],
+            started=self.game_started()
+        )
 
-    def add_player(self, name: str, word: str) -> ClientState:
+    def game_started(self) -> bool:
+        return None not in (self.p1, self.p2)
+
+    def add_player(self, name: str, word: str) -> GameBasicInfo:
         if self.p1 and self.p2:
             raise GameFullError()
         if word not in WORDS:
@@ -136,7 +148,7 @@ class Game:
             # TODO: Handle duplicate word selection (if we want to)
             self.p2 = player
             self.word2 = word
-        return self.get_client_state(player.secret_id)
+        return self.get_basic_info()
 
     def make_guess(self, guess: Guess) -> bool:
         if not self.validate_guess(guess):
@@ -146,9 +158,11 @@ class Game:
         return True
 
     def validate_guess(self, guess: Guess) -> bool:
-        if guess.player_secret not in (self.p1.secret_id, self.p2.secret_id):
+        if guess.player.secret_id not in (self.p1.secret_id, self.p2.secret_id):
             raise PlayerNotFoundError()
-        guess_valid = isinstance(guess, str) and len(guess) == 5 and all(ord('a') <= ord(c) <= ord('z') for c in guess)
+        if guess.player.secret_id != self.get_player_with_current_turn().secret_id:
+            raise NotPlayerTurnError()
+        guess_valid = isinstance(guess.guess_word, str) and guess.guess_word in WORDS
         return guess_valid
 
     def get_client_state(self, player_secret: str) -> ClientState:
@@ -175,7 +189,7 @@ class Game:
         return EndState(tie=False, winner_name=winner.name)
 
     def get_player_with_current_turn(self) -> Player:
-        if len(self.word1.guesses) == 0 or self.word1.guesses[-1].player_name == self.p1.name:
+        if len(self.word1.guesses) % 2 == 0:
             return self.p1
         return self.p2
 
