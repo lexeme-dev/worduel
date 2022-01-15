@@ -1,11 +1,11 @@
 import json
 import csv
 
-with open('words.json', 'r') as f:
+with open('data/words_wordle.json', 'r') as f:
     wordle_words = set(json.load(f))
 
 word_freq_arr = []
-with open('word-freq.txt', 'r', encoding='utf8') as f:
+with open('data/word-freq.txt', 'r', encoding='utf8') as f:
     reader = csv.reader(f, delimiter=' ')
     for word, freq in reader:
         if word in wordle_words:
@@ -14,5 +14,5 @@ with open('word-freq.txt', 'r', encoding='utf8') as f:
 word_freq_arr.sort()
 ordered_words = [word for freq, word in word_freq_arr]
 
-with open('words_freq_ordered.json', 'w') as jf:
+with open('data/words.json', 'w') as jf:
     json.dump(ordered_words, jf)
