@@ -151,7 +151,7 @@ class Game:
     def add_player(self, name: str) -> Player:
         if self.p1 and self.p2:
             raise GameFullError()
-        if not name:
+        if not isinstance(name, str) or len(name) > 10:
             raise InvalidNameError()
         player = Player(name=name, secret_id=uuid4().hex, pending_guess=None)
         if self.p1 is None:
@@ -221,8 +221,8 @@ class Game:
                                end_state=end_state, opponent_submitted_guess=(self.p1.pending_guess is not None))
 
     def __get_end_state(self) -> EndState | None:
-        if not self.word1.solved and not self.word2.solved:
-            if len(self.word1.guesses) == MAX_GUESSES:
+        if self.word1.solved == self.word2.solved:
+            if len(self.word1.guesses) == MAX_GUESSES or self.word1.solved:
                 return EndState(tie=True, winner_name=None)
             return None
         winner = self.p1 if self.word2.solved else self.p2
