@@ -1,0 +1,12 @@
+{
+  "game_id": "fecal-broom",
+  "status": {
+    "utc_ready": 1234567,
+    "utc_started": null,
+    "utc_finished": null
+  },
+  "player_names": [
+    "Faiz",
+    "Varun"
+  ]
+}

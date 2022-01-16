@@ -1,0 +1,69 @@
+{
+  "player": {
+    "name": "Varun",
+    "secret_id": "dc43980d2fbf44e296ec248f9770a0cc",
+    "pending_guess": null
+  },
+  "word": "price",
+  "letter_knowledge": {
+    "a": 3,
+    "b": 0,
+    "c": 0,
+    "d": 0,
+    "e": 0,
+    "f": 0,
+    "g": 3,
+    "h": 0,
+    "i": 0,
+    "j": 0,
+    "k": 0,
+    "l": 0,
+    "m": 0,
+    "n": 3,
+    "o": 0,
+    "p": 0,
+    "q": 0,
+    "r": 0,
+    "s": 2,
+    "t": 1,
+    "u": 0,
+    "v": 0,
+    "w": 0,
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "guesses": [
+    {
+      "guess_word": "prone",
+      "player_name": "Faiz",
+      "letter_results": [
+        1,
+        1,
+        1,
+        2,
+        1
+      ]
+    },
+    {
+      "guess_word": "anger",
+      "player_name": "Varun",
+      "letter_results": [
+        3,
+        3,
+        3,
+        1,
+        1
+      ]
+    }
+  ],
+  "opponent_solve_state": [
+    3,
+    3,
+    0,
+    2,
+    3
+  ],
+  "opponent_submitted_guess": false,
+  "end_state": null
+}
