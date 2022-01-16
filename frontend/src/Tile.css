@@ -1,0 +1,33 @@
+@import url('variables.css');
+
+.tile {
+  width: var(--tile-size);
+  height: var(--tile-size);
+  color: var(--tile-text-color);
+  font-family: var(--tile-font);
+  font-size: var(--tile-font-size);
+  background-color: var(--tile-default-bg);
+  border-radius: 5%;
+  margin: var(--tile-margin);
+}
+
+.tile-default {
+  background-color: var(--tile-default-bg);
+}
+
+.tile-wrong {
+  background-color: var(--tile-wrong-bg);
+}
+
+.tile-right {
+  background-color: var(--tile-right-bg);
+}
+
+.tile-contains {
+  background-color: var(--tile-contains-bg);
+}
+
+.inner-tile {
+  text-align: center;
+  margin: 10px;
+}
