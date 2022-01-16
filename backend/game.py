@@ -29,8 +29,8 @@ SolveState = List[LetterState]
 
 @dataclass
 class Guess:
-    player: Player
     guess_word: str
+    player_name: str
 
 
 @dataclass
@@ -78,13 +78,14 @@ class Word:
             letter_results.append(res)
         if self.word == guess.guess_word:
             self.solved = True
-        return GuessResult(guess_word=guess.guess_word, letter_results=letter_results, player_name=guess.player.name)
+        return GuessResult(guess_word=guess.guess_word, letter_results=letter_results, player_name=guess.player_name)
 
 
 @dataclass
 class Player:
     name: str
     secret_id: str  # Do not expose this to the other client, it's the only auth we have
+    pending_guess: Guess | None
 
 
 @dataclass
@@ -96,7 +97,7 @@ class ClientState:
     guesses: List[GuessResult]
     opponent_solve_state: SolveState  # What the opponent knows of the player's word
 
-    currently_turn: bool
+    opponent_submitted_guess: bool
     end_state: EndState | None
 
 
@@ -109,7 +110,12 @@ class EndState:
 @dataclass
 class GameBasicInfo:
     game_id: str
+    status: GameStatus
     player_names: List[str]
+
+
+@dataclass
+class GameStatus:
     utc_ready: int | None
     utc_started: int | None
     utc_finished: int | None
@@ -125,9 +131,7 @@ class Game:
     word1: Word | None
     word2: Word | None
 
-    utc_ready: int | None
-    utc_started: int | None
-    utc_finished: int | None
+    status: GameStatus
 
     def __init__(self, game_id):
         self.game_id = game_id
@@ -135,16 +139,12 @@ class Game:
         self.p2 = None
         self.word1 = None
         self.word2 = None
-        self.utc_ready = None
-        self.utc_started = None
-        self.utc_finished = None
+        self.status = GameStatus(utc_ready=None, utc_started=None, utc_finished=None)
 
     def get_basic_info(self) -> GameBasicInfo:
         return GameBasicInfo(
             player_names=[p.name for p in (self.p1, self.p2) if p is not None],
-            utc_ready=self.utc_ready,
-            utc_started=self.utc_started,
-            utc_finished=self.utc_finished,
+            status=self.status,
             game_id=self.game_id
         )
 
@@ -153,7 +153,7 @@ class Game:
             raise GameFullError()
         if not name:
             raise InvalidNameError()
-        player = Player(name=name, secret_id=uuid4().hex)
+        player = Player(name=name, secret_id=uuid4().hex, pending_guess=None)
         if self.p1 is None:
             self.p1 = player
         elif self.p2 is None:
@@ -161,7 +161,7 @@ class Game:
                 raise PlayerNameTakenError()
             # TODO: Handle duplicate word selection (if we want to)
             self.p2 = player
-            self.utc_ready = int(datetime.now().timestamp())
+            self.status.utc_ready = int(datetime.now().timestamp())
         return player
 
     def select_word(self, word: str, player_secret: str):
@@ -173,46 +173,52 @@ class Game:
         else:
             self.word2 = word
         if self.word1 and self.word2:
-            self.utc_started = int(datetime.now().timestamp())
+            self.status.utc_started = int(datetime.now().timestamp())
 
     def make_guess(self, guess_word: str, player_secret: str) -> bool:
         player = self.get_player(player_secret)
-        guess = Guess(guess_word=guess_word, player=player)
+        guess = Guess(guess_word=guess_word, player_name=player.name)
         if not self.__validate_guess(guess):
             return False
-        for word in (self.word1, self.word2):
-            word.apply_guess(guess)
-        if self.word1.solved or self.word2.solved:
-            self.utc_finished = int(datetime.now().timestamp())
+        player.pending_guess = guess
+        if self.p1.pending_guess and self.p2.pending_guess:
+            self.apply_pending_guesses()
         return True
 
+    def apply_pending_guesses(self):
+        for player in (self.p1, self.p2):
+            for word in (self.word1, self.word2):
+                word.apply_guess(player.pending_guess)
+            player.pending_guess = None
+        if self.word1.solved or self.word2.solved:
+            self.status.utc_finished = int(datetime.now().timestamp())
+
     def get_player(self, player_secret: str) -> Player:
-        if self.p1.secret_id == player_secret:
+        if self.p1 and self.p1.secret_id == player_secret:
             return self.p1
-        elif self.p2.secret_id == player_secret:
+        elif self.p2 and self.p2.secret_id == player_secret:
             return self.p2
         raise PlayerNotFoundError()
 
     def __validate_guess(self, guess: Guess) -> bool:
-        if guess.player != self.__get_player_with_current_turn():
-            raise NotPlayerTurnError()
+        if self.status.utc_finished is not None:
+            raise GameOverError()
         guess_valid = isinstance(guess.guess_word, str) and guess.guess_word in WORD_SET
         return guess_valid
 
     def get_client_state(self, player_secret: str) -> ClientState:
         end_state = self.__get_end_state()
-        curr_turn_player = self.__get_player_with_current_turn()
         player = self.get_player(player_secret)
         if player == self.p1:
             return ClientState(player=self.p1, word=self.word1.word,
                                opponent_solve_state=self.word1.cumulative_solve_state,
                                letter_knowledge=self.word2.knowledge, guesses=self.word2.guesses,
-                               end_state=end_state, currently_turn=self.p1 == curr_turn_player)
+                               end_state=end_state, opponent_submitted_guess=(self.p2.pending_guess is not None))
         else:
             return ClientState(player=self.p2, word=self.word2.word,
                                opponent_solve_state=self.word2.cumulative_solve_state,
                                letter_knowledge=self.word1.knowledge, guesses=self.word1.guesses,
-                               end_state=end_state, currently_turn=self.p2 == curr_turn_player)
+                               end_state=end_state, opponent_submitted_guess=(self.p1.pending_guess is not None))
 
     def __get_end_state(self) -> EndState | None:
         if not self.word1.solved and not self.word2.solved:
@@ -222,13 +228,12 @@ class Game:
         winner = self.p1 if self.word2.solved else self.p2
         return EndState(tie=False, winner_name=winner.name)
 
-    def __get_player_with_current_turn(self) -> Player:
-        if len(self.word1.guesses) % 2 == 0:
-            return self.p1
-        return self.p2
-
 
 class GameFullError(Exception):
+    pass
+
+
+class GameOverError(Exception):
     pass
 
 
@@ -237,10 +242,6 @@ class PlayerNameTakenError(Exception):
 
 
 class PlayerNotFoundError(Exception):
-    pass
-
-
-class NotPlayerTurnError(Exception):
     pass
 
 

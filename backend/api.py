@@ -16,7 +16,7 @@ def game_create():
     return jsonify(game.get_basic_info())
 
 
-# Poll this until utc_started is not null, then poll /state
+# Poll this until status.utc_started is not null, then poll /state
 @app.route('/game/<game_id>', methods=['GET'])
 def game_info(game_id: str):
     try:
@@ -29,10 +29,9 @@ def game_info(game_id: str):
 @app.route('/game/<game_id>/join', methods=['POST'])
 def game_join(game_id: str):
     name = request.args.get('name')
-    word = request.args.get('word')
     try:
         game = game_manager.get_game(game_id)
-        return jsonify(game.add_player(name, word))
+        return jsonify(game.add_player(name))
     except (InvalidNameError, InvalidWordError):  # TODO: Add error messages
         abort(422)
     except GameNotFoundError:
