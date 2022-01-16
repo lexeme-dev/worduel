@@ -19,15 +19,13 @@ export type TileProps = {
 
 function Tile(props: TileProps) {
   return (
-    <div className={ "tile " + props.variant }>
-      <Card className="inner-tile">
-        <Card.Body>
-          <Card.Text>
-            { props.letter.toString() }
-          </Card.Text>
-        </Card.Body>
-      </Card>
-    </div>
+    <Card className={ "tile text-nowrap " + props.variant }>
+      <Card.Body>
+        <Card.Text>
+          { props.letter.toString() }
+        </Card.Text>
+      </Card.Body>
+    </Card>
   );
 }
 

@@ -9,6 +9,10 @@
   background-color: var(--tile-default-bg);
   border-radius: 5%;
   margin: var(--tile-margin);
+  padding: 0px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 50px;
 }
 
 .tile-default {
@@ -25,9 +29,4 @@
 
 .tile-contains {
   background-color: var(--tile-contains-bg);
-}
-
-.inner-tile {
-  text-align: center;
-  margin: 10px;
 }

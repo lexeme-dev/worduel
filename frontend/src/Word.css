@@ -1,0 +1,6 @@
+.card-text {
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
