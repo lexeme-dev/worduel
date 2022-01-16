@@ -32,21 +32,21 @@ def game_join(game_id: str):
     try:
         game = game_manager.get_game(game_id)
         return jsonify(game.add_player(name))
-    except (InvalidNameError, InvalidWordError):  # TODO: Add error messages
+    except InvalidNameError:  # TODO: Add error messages
         abort(422)
     except GameNotFoundError:
         abort(404)
 
 
-@app.route('/game/<game_id>/select_word', methods=['POST'])
-def game_select_word(game_id: str):
+@app.route('/game/<game_id>/pick_word', methods=['POST'])
+def game_pick_word(game_id: str):
     player_secret = request.args.get('player_secret')
     word = request.args.get('word')
     try:
         game = game_manager.get_game(game_id)
         game.select_word(word, player_secret)
         return jsonify(game.get_basic_info())
-    except PlayerNotFoundError:
+    except (PlayerNotFoundError, InvalidWordError):
         abort(422)
     except GameNotFoundError:
         abort(404)

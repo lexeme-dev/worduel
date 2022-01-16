@@ -1,0 +1,72 @@
+{
+  "player": {
+    "name": "Faiz",
+    "secret_id": "026db56aff5546d681a869a4fd7b27d3",
+    "pending_guess": null
+  },
+  "word": "angst",
+  "letter_knowledge": {
+    "a": 0,
+    "b": 0,
+    "c": 1,
+    "d": 0,
+    "e": 3,
+    "f": 0,
+    "g": 0,
+    "h": 0,
+    "i": 1,
+    "j": 0,
+    "k": 0,
+    "l": 0,
+    "m": 0,
+    "n": 0,
+    "o": 0,
+    "p": 3,
+    "q": 0,
+    "r": 3,
+    "s": 0,
+    "t": 0,
+    "u": 0,
+    "v": 0,
+    "w": 0,
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "guesses": [
+    {
+      "guess_word": "prone",
+      "player_name": "Faiz",
+      "letter_results": [
+        3,
+        3,
+        1,
+        1,
+        3
+      ]
+    },
+    {
+      "guess_word": "angst",
+      "player_name": "Varun",
+      "letter_results": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "opponent_solve_state": [
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "opponent_submitted_guess": false,
+  "end_state": {
+    "tie": false,
+    "winner_name": "Varun"
+  }
+}
