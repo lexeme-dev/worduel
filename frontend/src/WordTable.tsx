@@ -5,7 +5,7 @@ import Word  from './Word';
 import './WordTable.css';
 import Table from 'react-bootstrap/Table';
 import { Container, Row, Col } from 'react-bootstrap';
-import { PersonCircle, Person } from 'react-bootstrap-icons';
+import { PersonFill, Person } from 'react-bootstrap-icons';
 
 
 export type WordTableProps = {
@@ -31,11 +31,11 @@ function WordTable(props: WordTableProps) {
             </div>
             <Row key={2*idx}>
               <Word word={word_pair[0]} variants={props.words_variants[idx]} key={idx} />
-              <Person size={30}/>
+              <Person className="align-middle" size={30}/>
             </Row>
             <Row className="p-2" key={2*idx + 1}>
               <Word word={word_pair[1]} variants={props.words_variants[idx]} key={idx}/>
-              <PersonCircle size={30}/>
+              <PersonFill size={30}/>
             </Row>
           </Row>
         )
