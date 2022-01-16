@@ -32,6 +32,7 @@ class ApiTest(unittest.TestCase):
         res = self.client.post(f'/game/{game_id}/join')
         self.assertEqual(res.status_code, 422)
         res = self.client.post(f'/game/{game_id}/join?name=namethatiswaytoolongtobeallowed')
+        self.assertEqual(res.status_code, 422)
         res = self.client.get(f'/game/{game_id}')
         self.assertEqual(len(res.json['player_names']), 0)
 
