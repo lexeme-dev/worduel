@@ -1,11 +1,6 @@
 from flask.testing import FlaskClient
 import unittest
-import requests
 from api import app
-
-HOST = "localhost"
-PORT = 1215
-URI = f"http://{HOST}:{PORT}"
 
 
 class ApiTest(unittest.TestCase):
@@ -31,6 +26,14 @@ class ApiTest(unittest.TestCase):
         self.assertIsNotNone(res.json['secret_id'])
         res = self.client.get(f'/game/{game_id}')
         self.assertEqual(len(res.json['player_names']), 1)
+
+    def test_join_game_invalid_name(self):
+        game_id = self.client.post('/game').json['game_id']
+        res = self.client.post(f'/game/{game_id}/join')
+        self.assertEqual(res.status_code, 422)
+        res = self.client.post(f'/game/{game_id}/join?name=namethatiswaytoolongtobeallowed')
+        res = self.client.get(f'/game/{game_id}')
+        self.assertEqual(len(res.json['player_names']), 0)
 
     def test_game_info(self):
         game_id = self.client.post('/game').json['game_id']
@@ -90,3 +93,15 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(res.json['end_state']['winner_name'], 'Varun')
         res = self.client.get(f'/game/{game_id}/state?player_secret={p1_secret}')
         self.assertIsNone(res.json['player']['pending_guess'])
+
+    def test_guess_word_tie(self):
+        game_id = self.client.post('/game').json['game_id']
+        p1_secret = self.client.post(f'/game/{game_id}/join?name=Faiz').json['secret_id']
+        p2_secret = self.client.post(f'/game/{game_id}/join?name=Varun').json['secret_id']
+        self.client.post(f'/game/{game_id}/pick_word?word=angst&player_secret={p1_secret}')
+        self.client.post(f'/game/{game_id}/pick_word?word=price&player_secret={p2_secret}')
+        self.client.post(f'/game/{game_id}/guess?guess_word=price&player_secret={p1_secret}')
+        res = self.client.post(f'/game/{game_id}/guess?guess_word=angst&player_secret={p2_secret}')
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(res.json['end_state']['tie'])
+        self.assertIsNone(res.json['end_state']['winner_name'])
