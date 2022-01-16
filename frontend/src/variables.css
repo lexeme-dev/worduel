@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Cousine:wght@700&family=Fira+Sans&display=swap');
 :root {
   --tile-default-bg: #C1CCD7;
   --tile-right-bg: #A0E8AF;
@@ -8,4 +9,8 @@
   --tile-text-color: #211D33;
   --tile-font: 'Cousine', monospace;
   --tile-font-size: 40px;
+
+  --word-secondary-bg: #EEEEEE;
+
+  --table-width: 300px;
 }

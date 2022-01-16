@@ -6,22 +6,17 @@ import Table from 'react-bootstrap/Table'
 
 
 export type WordProps = {
-  word: string
-  variants: TileVariant[]
+  word: string;
+  variants: TileVariant[];
 }
 
 function Word(props: WordProps) {
   return (
-    <Table>
-      <thead></thead>
-      <tbody>
-        <tr>
+      <div className="word">
           { props.word.split("").map((letter, idx: number) =>
-            <td key={idx}><Tile letter={letter} variant={props.variants[idx]} key={idx} /></td>
+          <td key={idx}><Tile letter={letter} variant={props.variants[idx]} key={idx} /></td>
           ) }
-        </tr>
-      </tbody>
-    </Table>
+      </div>
   );
 }
 

@@ -1,6 +1,27 @@
+@import "variables.css";
+
 .card-text {
   white-space: nowrap;
   overflow: hidden;
   padding: 0;
   margin: 0;
+}
+
+.word {
+  padding: 5px;
+  display: inline-flex;
+  direction: horizontal;
+  flex-grow: 0;
+  flex-wrap: nowrap;
+}
+
+.word-primary {
+}
+
+.word-secondary {
+  background-color: var(--word-secondary-bg);
+}
+
+.td {
+  height: 56px;
 }

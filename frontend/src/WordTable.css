@@ -1,0 +1,16 @@
+@import 'variables.css';
+.word-table {
+}
+
+.guess {
+  font-family: "Fira Sans", sans-serif;
+}
+
+.words-primary {
+  padding: 5px;
+}
+
+.words-secondary {
+  background-color: var(--word-secondary-bg);
+  padding: 5px;
+}

@@ -17,5 +17,17 @@ export const Angst = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Angst.args = {
   word: 'ANGST',
-  variants: [TileVariant.Default, TileVariant.Default, TileVariant.Default, TileVariant.Default, TileVariant.Default]
+  variants: [TileVariant.Default, TileVariant.Default, TileVariant.Default, TileVariant.Default, TileVariant.Default],
+}
+
+export const Slyly = Template.bind({});
+Slyly.args = {
+  word: 'SLYLY',
+  variants: [TileVariant.Unknown, TileVariant.Default, TileVariant.Contains, TileVariant.Right, TileVariant.Wrong],
+}
+
+export const Sl_ly = Template.bind({});
+Sl_ly.args = {
+  word: 'SL LY',
+  variants: [TileVariant.Unknown, TileVariant.Default, TileVariant.Contains, TileVariant.Right, TileVariant.Wrong],
 }

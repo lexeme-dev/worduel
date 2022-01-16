@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import logo from './logo.svg';
 import './Tile.css';
 import Card from 'react-bootstrap/Card'
@@ -22,7 +22,7 @@ function Tile(props: TileProps) {
     <Card className={ "tile text-nowrap " + props.variant }>
       <Card.Body>
         <Card.Text>
-          { props.letter.toString() }
+          { props.letter.toString() == " " ? <Fragment>&nbsp;</Fragment> : props.letter.toString() }
         </Card.Text>
       </Card.Body>
     </Card>
