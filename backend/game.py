@@ -168,9 +168,9 @@ class Game:
         if word not in WORD_SET:
             raise InvalidWordError()
         word = Word(word=word)
-        if self.get_player(player_secret) == self.p1:
+        if self.get_player(player_secret) == self.p1 and self.word1 is None:
             self.word1 = word
-        else:
+        elif self.get_player(player_secret) == self.p2 and self.word2 is None:
             self.word2 = word
         if self.word1 and self.word2:
             self.status.utc_started = int(datetime.now().timestamp())
