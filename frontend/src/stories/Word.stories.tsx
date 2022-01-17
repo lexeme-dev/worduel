@@ -1,6 +1,6 @@
 import React from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
-import Word from '../Word';
+import Word from '../components/Word';
 import {LetterState} from "../services/interfaces";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

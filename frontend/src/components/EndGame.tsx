@@ -1,6 +1,6 @@
 import React from 'react';
 import Alert from 'react-bootstrap/Alert'
-import { EndState } from './services/interfaces'
+import { EndState } from '../services/interfaces'
 
 export type EndGameProps = {
   endState: EndState;

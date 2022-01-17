@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import Waiting, {WaitingProps} from '../Waiting';
+import Waiting, {WaitingProps} from '../components/Waiting';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

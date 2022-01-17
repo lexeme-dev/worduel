@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import Tile from '../Tile';
+import Tile from '../components/Tile';
 import {LetterState} from "../services/interfaces";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

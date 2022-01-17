@@ -1,6 +1,6 @@
 import React from 'react';
 import {ComponentStory, ComponentMeta} from '@storybook/react';
-import EndGame, {EndGameProps} from '../EndGame';
+import EndGame, {EndGameProps} from '../components/EndGame';
 import {EndState} from '../services/interfaces'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

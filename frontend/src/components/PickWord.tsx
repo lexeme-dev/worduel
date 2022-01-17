@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import 'bootstrap/dist/css/bootstrap.css';
 import './PickWord.css';
-import {GameBasicInfo, LetterState} from './services/interfaces';
+import {GameBasicInfo, LetterState} from '../services/interfaces';
 import {GuessResultDisplay} from './WordTable';
 import Word from './Word';
 

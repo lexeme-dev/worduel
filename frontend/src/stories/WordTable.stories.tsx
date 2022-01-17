@@ -1,6 +1,6 @@
 import React from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
-import WordTable from '../WordTable';
+import WordTable from '../components/WordTable';
 import {LetterState} from "../services/interfaces";
 import {action} from '@storybook/addon-actions';
 

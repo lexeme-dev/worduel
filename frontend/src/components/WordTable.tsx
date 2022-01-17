@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Word from './Word';
 import './WordTable.css';
 import {Container, Row, Form, Button} from 'react-bootstrap';
-import {GuessResult, LetterState, MAX_TURNS} from "./services/interfaces";
+import {GuessResult, LetterState, MAX_TURNS} from "../services/interfaces";
 
 export type OnGuess = (guess: string) => void;
 

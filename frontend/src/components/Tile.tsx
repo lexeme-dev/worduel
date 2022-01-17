@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import './Tile.css';
 import Card from 'react-bootstrap/Card'
 import { PersonFill } from 'react-bootstrap-icons';
-import {LetterState} from "./services/interfaces";
+import {LetterState} from "../services/interfaces";
 
 type TileVariant = `tile-${'unknown' | 'wrong' | 'present' | 'right'}`
 
