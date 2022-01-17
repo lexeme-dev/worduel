@@ -1,3 +1,5 @@
+export const MAX_TURNS = 5;
+
 export interface ClientState {
     player: Player;
     word: string;

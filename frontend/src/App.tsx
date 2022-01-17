@@ -4,18 +4,12 @@ import './App.css';
 import WordTable from "./WordTable";
 import { GameBasicInfo } from "./services/interfaces"
 
-export type AppState = {
-  gameBasicInfo: GameBasicInfo
-}
-
-class App {
-  render () {
-    return (
-      <div className="App">
-        <WordTable guesses={[]} />
-      </div>
-    );
-  };
+function App() {
+  return (
+    <div className="App">
+      <WordTable guesses={[]} isPlayerOne playerName={"Faiz"} />
+    </div>
+  );
 }
 
 export default App;
