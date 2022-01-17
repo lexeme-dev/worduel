@@ -54,7 +54,7 @@ class App extends Component<{}, AppState> {
     GameService.pickWord(this.state.gameId!, word, this.state.playerInfo?.secret_id!).then(r => {
       if (!r.status.utc_started) {
         this.setState({invalidWord: false});
-        this.setState({waitingOpponent: "...opponent is choosing a very secret word."});
+        this.setState({waitingOpponent: "Opponent is choosing their secret word..."});
         this.infoPollInterval = setInterval(this.pollInfoUntilStarted, 1000);
       } else {
         this.setState({waitingOpponent: "", invalidWord: false});

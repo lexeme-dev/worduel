@@ -1,5 +1,9 @@
 @import 'variables';
 
+body {
+  background-color: #fffaf0;
+}
+
 .App {
   text-align: center;
 }
