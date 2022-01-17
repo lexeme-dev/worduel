@@ -2,6 +2,7 @@ import React from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
 import WordTable from '../WordTable';
 import {LetterState} from "../services/interfaces";
+import {action} from '@storybook/addon-actions';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -23,7 +24,7 @@ Angst.args = {
       letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.UNKNOWN],
     },
     {
-      guess_word: '     ',
+      guess_word: 'AN ST',
       player_name: 'Faiz',
       letter_results: [LetterState.UNKNOWN, LetterState.WRONG, LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.UNKNOWN],
     },
@@ -37,25 +38,8 @@ Angst.args = {
       player_name: 'Faiz',
       letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.RIGHT, LetterState.UNKNOWN, LetterState.UNKNOWN],
     },
-    {
-      guess_word: '     ',
-      player_name: 'Varun',
-      letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.RIGHT, LetterState.UNKNOWN, LetterState.UNKNOWN],
-    },
-    {
-      guess_word: 'PYREX',
-      player_name: 'Faiz',
-      letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.RIGHT, LetterState.UNKNOWN, LetterState.UNKNOWN],
-    },
-    {
-      guess_word: '     ',
-      player_name: 'Varun',
-      letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.RIGHT, LetterState.UNKNOWN, LetterState.UNKNOWN],
-    },
-    {
-      guess_word: '     ',
-      player_name: 'Faiz',
-      letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.RIGHT, LetterState.UNKNOWN, LetterState.UNKNOWN],
-    },
-  ]
+  ],
+  playerName: "Faiz",
+  isPlayerOne: true,
+  onGuess: action('onGuess')
 }
