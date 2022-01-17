@@ -8,6 +8,7 @@ import Waiting from "./Waiting";
 import InvalidWord from "./InvalidWord";
 import PickWord from "./PickWord";
 import EndGame from "./EndGame";
+import OpponentSolveState from "./OpponentSolveState";
 
 interface AppState {
   gameId?: string;
@@ -28,7 +29,13 @@ class App extends Component<{}, AppState> {
 
   constructor(props: {}) {
     super(props);
-    this.state = {gameId: undefined, clientState: undefined, isPlayerOne: false, waitingOpponent: "", invalidWord: false}
+    this.state = {
+      gameId: undefined,
+      clientState: undefined,
+      isPlayerOne: false,
+      waitingOpponent: "",
+      invalidWord: false
+    }
   }
 
 
@@ -61,7 +68,9 @@ class App extends Component<{}, AppState> {
         this.statePollInterval = setInterval(this.pollClientState, 1000);
       }
       this.setState({gameStatus: r.status});
-    }).catch((error) => {this.setState({invalidWord: true});});
+    }).catch((error) => {
+      this.setState({invalidWord: true});
+    });
   }
 
   pollInfoUntilReady = () => {
@@ -128,7 +137,9 @@ class App extends Component<{}, AppState> {
       this.setState({invalidWord: false});
       this.setState({waitingOpponent: "Waiting for opponent guess..."});
       this.setState({clientState: r});
-    }).catch((e) => {this.setState({invalidWord: true})});
+    }).catch((e) => {
+      this.setState({invalidWord: true})
+    });
   }
 
   render() {
@@ -136,17 +147,22 @@ class App extends Component<{}, AppState> {
       <div className="App">
         <header className="App-header pt-3 pb-1">
           <h1>BattleWord</h1>
+          {this.state.clientState &&
+            <OpponentSolveState word={this.state.clientState.word}
+                                opponentSolveState={this.state.clientState.opponent_solve_state}/>
+          }
         </header>
         <div className="App-body">
           {this.state.clientState?.end_state && <EndGame endState={this.state.clientState?.end_state}/>}
-          {this.state.invalidWord && <InvalidWord />}
+          {this.state.invalidWord && <InvalidWord/>}
           {!this.state.gameId && <Create onCreate={this.onGameCreate} onJoin={this.onGameJoin}/>}
           {!!this.state.waitingOpponent && <Waiting bodyText={this.state.waitingOpponent}/>}
           {this.state.gameId && this.state.gameStatus?.utc_ready && !this.state.gameStatus?.utc_started && !this.state.waitingOpponent &&
             <PickWord onWordPicked={this.onWordPicked}/>}
           {this.state.clientState &&
             <WordTable guesses={this.state.clientState?.guesses!} isPlayerOne={this.state.isPlayerOne}
-                       playerName={this.state.playerInfo!.name} onGuess={this.onGuess} showInput={!this.state.waitingOpponent}
+                       playerName={this.state.playerInfo!.name} onGuess={this.onGuess}
+                       showInput={!this.state.waitingOpponent}
                        opponentSubmittedGuess={this.state.clientState.opponent_submitted_guess}/>}
         </div>
       </div>
