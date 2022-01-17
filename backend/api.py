@@ -43,7 +43,7 @@ def game_join(game_id: str):
 @app.route('/game/<game_id>/pick_word', methods=['POST'])
 def game_pick_word(game_id: str):
     player_secret = request.args.get('player_secret')
-    word = request.args.get('word')
+    word = request.args.get('word').lower()
     try:
         game = game_manager.get_game(game_id)
         game.select_word(word, player_secret)
@@ -57,7 +57,7 @@ def game_pick_word(game_id: str):
 @app.route('/game/<game_id>/guess', methods=['POST'])
 def game_guess(game_id: str):
     player_secret = request.args.get('player_secret')
-    guess_word = request.args.get('guess_word')
+    guess_word = request.args.get('guess_word').lower()
     try:
         game = game_manager.get_game(game_id)
         game.make_guess(guess_word, player_secret)

@@ -1,7 +1,7 @@
 import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import {ComponentStory, ComponentMeta} from '@storybook/react';
 import EndGame, {EndGameProps} from '../EndGame';
-import EndState from './services/interfaces'
+import {EndState} from '../services/interfaces'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -17,9 +17,6 @@ export const Primary = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Primary.args = {
   endState: {
-    tie: true,
-  },
-  endState: {
     winner_name: "Faiz",
     tie: false
   }
@@ -28,5 +25,6 @@ export const Secondary = Template.bind({});
 Secondary.args = {
   endState: {
     tie: true,
+    winner_name: undefined,
   },
 }
