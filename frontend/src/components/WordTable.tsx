@@ -74,21 +74,24 @@ class WordTable extends Component<WordTableProps, WordTableState> {
           turns.map((guess_pair, idx: number) => {
               const isCurrentTurn = idx + 1 === guessNumber;
               const opponentGuess = guess_pair[0].opponent ? guess_pair[0] : guess_pair[1];
-              return <Row className={"mx-auto pt-1 " + (((idx % 2) ? "words-primary" : "words-secondary"))}>
+              return <Row className={"mx-auto pt-1 guess-row " + (((idx % 2) ? "words-primary" : "words-secondary"))}>
                 <div className="guess pt-1">
                   TURN {idx + 1}
                 </div>
-                <Row key={2 * idx}>
+                <Row className="guess-row" key={2 * idx}>
                   <Word guess={guess_pair[0]} key={idx}/>
                 </Row>
-                <Row key={2 * idx + 1}>
+                <Row className="guess-row" key={2 * idx + 1}>
                   <Word guess={guess_pair[1]} key={idx}/>
                 </Row>
                 {isCurrentTurn && this.props.showInput ?
-                  (<Row key={-1}>
-                    <Form className="join-form pb-2" onSubmit={(e) => { e.preventDefault(); this.props.onGuess(this.state.guess); } }>
+                  (<Row className="guess-row guess-form" key={-1}>
+                    <Form className="join-form pt-1 pb-1" onSubmit={(e) => {
+                      e.preventDefault();
+                      this.props.onGuess(this.state.guess);
+                    }}>
                       <Form.Group>
-                        <Form.Control className="join-enter" type="text" size="lg" placeholder="guess"
+                        <Form.Control className="guess-enter mb-1" type="text" size="lg" placeholder="guess"
                                       onChange={(e) =>
                                         this.setState({guess: e.target.value})}/>
                         <div className="d-grid gap-2">

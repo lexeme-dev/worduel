@@ -40,7 +40,7 @@ class Create extends Component<CreateProps, CreateState> {
 
           <br/>
 
-          <Form className="pt-3 join-form" onSubmit={(e) => { e.preventDefault(); this.props.onCreate(this.state.joinGameName) }}>
+          <Form className="pt-3 pb-2 join-form" onSubmit={(e) => { e.preventDefault(); this.props.onCreate(this.state.joinGameName) }}>
             <Form.Group className="mb-3">
               <Form.Control className="join-enter" type="text" size="lg" placeholder="Player Name"
                             onChange={(e) => this.setState({joinGameName: e.target.value})}/>
@@ -51,9 +51,7 @@ class Create extends Component<CreateProps, CreateState> {
               </div>
             </Form.Group>
           </Form>
-          <br/>
           <div className="text-center lead">OR</div>
-          <br/>
           <Form className="pt-3 join-form" onSubmit={(e) => { e.preventDefault(); this.props.onJoin(this.state.joinGameName, this.state.joinGameId);}}>
             <Form.Group className="mb-3">
               <Form.Control className="join-enter" type="text" size="lg" placeholder="game-code"

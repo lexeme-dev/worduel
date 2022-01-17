@@ -1,9 +1,18 @@
 @import './variables.css';
 .word-table {
   width: 100%;
+  max-width: 100%;
+}
+
+.guess-row {
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
 }
 
 .guess {
+  max-width: 330px;
+  margin: 0 auto;
   font-family: "Fira Sans", sans-serif;
   text-align: left;
 }
@@ -17,8 +26,7 @@
   padding: 5px;
 }
 
-.row {
-  max-width: 330px;
-  padding: 0px;
-  margin: 0px;
+.guess-form {
+  max-width: 300px;
+  margin: 0 auto;
 }
