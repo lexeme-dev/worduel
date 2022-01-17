@@ -36,7 +36,7 @@ class App extends Component<{}, AppState> {
     this.setState({isPlayerOne: true});
     GameService.createGame().then(r => {
       this.onGameJoin(name, r.game_id);
-    })
+    });
   }
 
   onGameJoin = (name: string, gameId: string) => {
@@ -122,6 +122,7 @@ class App extends Component<{}, AppState> {
         <header>
           <h1 className="pt-3">BattleWord</h1>
         </header>
+        {this.state.clientState?.end_state && <EndGame endState={this.state.clientState?.end_state}/>}
         {!this.state.gameId && <Create onCreate={this.onGameCreate} onJoin={this.onGameJoin}/>}
         {this.state.gameId && !this.state.gameStatus?.utc_ready &&
           <Waiting bodyText={`Game Code: ${this.state.gameId}`}/>}
@@ -131,7 +132,6 @@ class App extends Component<{}, AppState> {
           <WordTable guesses={this.state.clientState?.guesses!} isPlayerOne={this.state.isPlayerOne}
                      playerName={this.state.playerInfo!.name} onGuess={this.onGuess}
                      opponentSubmittedGuess={this.state.clientState.opponent_submitted_guess}/>}
-        {this.state.clientState?.end_state && <EndGame endState={this.state.clientState?.end_state}/>}
       </div>
     );
   }
