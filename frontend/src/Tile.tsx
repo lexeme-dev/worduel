@@ -1,25 +1,25 @@
 import React, { Fragment } from 'react';
-import logo from './logo.svg';
 import './Tile.css';
 import Card from 'react-bootstrap/Card'
+import {LetterState} from "./services/interfaces";
 
-export enum TileVariant {
-  Default = 'tile-default',
-  Unknown = 'tile-unknown',
-  Wrong = 'tile-wrong',
-  Contains = 'tile-contains',
-  Right = 'tile-right',
-   
+type TileVariant = `tile-${'unknown' | 'wrong' | 'present' | 'right'}`
+
+const stateVariantMap: Record<LetterState, TileVariant> = {
+  [LetterState.UNKNOWN]: 'tile-unknown',
+  [LetterState.WRONG]: 'tile-wrong',
+  [LetterState.PRESENT]: 'tile-present',
+  [LetterState.RIGHT]: 'tile-right',
 }
 
 export type TileProps = {
-  letter: string
-  variant: TileVariant
+  letter: string;
+  letterState: LetterState;
 }
 
 function Tile(props: TileProps) {
   return (
-    <Card className={ "tile text-nowrap " + props.variant }>
+    <Card className={ "tile text-nowrap " + stateVariantMap[props.letterState] }>
       <Card.Body>
         <Card.Text>
           { props.letter.toString() == " " ? <Fragment>&nbsp;</Fragment> : props.letter.toString() }

@@ -15,7 +15,7 @@
   line-height: 140%;
 }
 
-.tile-default {
+.tile-unknown {
   background-color: var(--tile-default-bg);
 }
 
@@ -27,6 +27,6 @@
   background-color: var(--tile-right-bg);
 }
 
-.tile-contains {
+.tile-present {
   background-color: var(--tile-contains-bg);
 }
