@@ -53,9 +53,7 @@ class Create extends Component<CreateProps, CreateState> {
               </div>
             </Form.Group>
           </Form>
-          <br/>
-          <div className="text-center lead">OR</div>
-          <br/>
+          <div className="pt-1 pb-2 text-center lead">OR</div>
           <Form className="join-form">
             <Form.Group className="mb-3">
               <Form.Control className="join-enter" type="text" size="lg" placeholder="game-code"
