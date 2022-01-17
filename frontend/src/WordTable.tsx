@@ -31,6 +31,12 @@ class WordTable extends Component<WordTableProps, WordTableState> {
     this.state = {guess: ""};
   }
 
+  componentDidUpdate(prevProps: Readonly<WordTableProps>, prevState: Readonly<WordTableState>) {
+    if (prevProps.guesses.length != this.props.guesses.length) {
+      this.setState({guess: ""});
+    }
+  }
+
   render() {
     const turns: GuessResultDisplay[][] = this.props.guesses.map(gr => {
       return {
