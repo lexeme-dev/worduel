@@ -49,6 +49,8 @@ class App extends Component<{}, AppState> {
     GameService.pickWord(this.state.gameId!, word, this.state.playerInfo?.secret_id!).then(r => {
       if (!r.status.utc_started) {
         this.infoPollInterval = setInterval(this.pollInfoUntilStarted, 1000);
+      } else {
+        this.statePollInterval = setInterval(this.pollClientState, 1000);
       }
       this.setState({gameStatus: r.status});
     });
@@ -79,8 +81,24 @@ class App extends Component<{}, AppState> {
       if (r.status.utc_started) {
         clearInterval(this.infoPollInterval!);
         this.infoPollInterval = undefined;
+        this.statePollInterval = setInterval(this.pollClientState, 1000);
       }
       this.setState({gameStatus: r.status});
+    })
+  }
+
+  pollClientState = () => {
+    this.stateReqCounter += 1;
+    const reqNumber = this.stateReqCounter;
+    GameService.getState(this.state.gameId!, this.state.playerInfo!.secret_id).then(r => {
+      if (reqNumber < this.stateReqCounter) {
+        return;
+      }
+      if (r.end_state) {
+        clearInterval(this.statePollInterval!);
+        this.statePollInterval = undefined;
+      }
+      this.setState({clientState: r});
     })
   }
 
@@ -91,7 +109,7 @@ class App extends Component<{}, AppState> {
           <Waiting bodyText={`Game Code: ${this.state.gameId}`}/>}
         {this.state.gameId && this.state.gameStatus?.utc_ready && !this.state.gameStatus?.utc_started &&
           <PickWord onWordPicked={this.onWordPicked}/>}
-        {this.state.gameStatus?.utc_started &&
+        {this.state.clientState &&
           <WordTable guesses={this.state.clientState?.guesses!} isPlayerOne={this.state.isPlayerOne}
                      playerName={this.state.playerInfo!.name}/>}
         {!this.state.gameId && <Create onCreate={this.onGameCreate} onJoin={this.onGameJoin}/>}
