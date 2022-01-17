@@ -1,0 +1,8 @@
+
+.pick-word-wrapper {
+  display: inline-block;
+  flex-direction: vertical;
+  align: center;
+  text-align: center;
+  max-width: 300px;
+}
