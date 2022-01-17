@@ -3,7 +3,6 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import 'bootstrap/dist/css/bootstrap.css';
 import './Create.css';
-import {GameBasicInfo} from './services/interfaces';
 
 export type OnCreate = (name: string) => void;
 export type OnJoin = (name: string, game_id: string) => void;
