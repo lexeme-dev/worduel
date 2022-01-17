@@ -145,7 +145,7 @@ class App extends Component<{}, AppState> {
           <PickWord onWordPicked={this.onWordPicked}/>}
         {this.state.clientState &&
           <WordTable guesses={this.state.clientState?.guesses!} isPlayerOne={this.state.isPlayerOne}
-                     playerName={this.state.playerInfo!.name} onGuess={this.onGuess}
+                     playerName={this.state.playerInfo!.name} onGuess={this.onGuess} showInput={!this.state.waitingOpponent}
                      opponentSubmittedGuess={this.state.clientState.opponent_submitted_guess}/>}
       </div>
     );

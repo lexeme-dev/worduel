@@ -12,6 +12,7 @@ export type WordTableProps = {
   guesses: GuessResult[];
   onGuess: OnGuess;
   opponentSubmittedGuess: boolean;
+  showInput: boolean;
 }
 
 export type WordTableState = {
@@ -76,7 +77,7 @@ class WordTable extends Component<WordTableProps, WordTableState> {
                 <Row key={2 * idx + 1}>
                   <Word guess={guess_pair[1]} key={idx}/>
                 </Row>
-                {isCurrentTurn ?
+                {isCurrentTurn && this.props.showInput ?
                   (<Row key={-1}>
                     <Form className="join-form" onSubmit={(e) => { e.preventDefault(); this.props.onGuess(this.state.guess); } }>
                       <Form.Group>
