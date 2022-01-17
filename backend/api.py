@@ -1,10 +1,12 @@
 from flask import Flask, jsonify, abort, request
+from flask_cors import CORS
 
 from game import InvalidNameError, InvalidWordError, PlayerNotFoundError
 from game_manager import GameManager, GameNotFoundError
 from helpers import ORJSONEncoder, ORJSONDecoder
 
 app = Flask(__name__)
+CORS(app)
 app.json_encoder = ORJSONEncoder
 app.json_decoder = ORJSONDecoder
 game_manager = GameManager()
