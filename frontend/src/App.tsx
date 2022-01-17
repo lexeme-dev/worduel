@@ -14,6 +14,8 @@ interface AppState {
   clientState?: ClientState;
   playerInfo?: Player;
   isPlayerOne: boolean;
+  waitingOpponent: string;
+  invalidWord: boolean;
 }
 
 class App extends Component<{}, AppState> {
@@ -25,7 +27,7 @@ class App extends Component<{}, AppState> {
 
   constructor(props: {}) {
     super(props);
-    this.state = {gameId: undefined, clientState: undefined, isPlayerOne: false}
+    this.state = {gameId: undefined, clientState: undefined, isPlayerOne: false, waitingOpponent: "", invalidWord: false}
   }
 
 
@@ -43,12 +45,14 @@ class App extends Component<{}, AppState> {
     GameService.joinGame(gameId, name).then(r => {
       this.setState({gameId, playerInfo: r});
       this.infoPollInterval = setInterval(this.pollInfoUntilReady, 1000);
+      this.setState({waitingOpponent: `Game Code: ${this.state.gameId}`});
     })
   }
 
   onWordPicked = (word: string) => {
     GameService.pickWord(this.state.gameId!, word, this.state.playerInfo?.secret_id!).then(r => {
       if (!r.status.utc_started) {
+        this.setState({waitingOpponent: "...opponent is choosing a very secret word."});
         this.infoPollInterval = setInterval(this.pollInfoUntilStarted, 1000);
       } else {
         this.statePollInterval = setInterval(this.pollClientState, 1000);
@@ -67,6 +71,7 @@ class App extends Component<{}, AppState> {
       if (r.status.utc_ready || this.infoReqCounter > 10_000) {
         clearInterval(this.infoPollInterval!);
         this.infoPollInterval = undefined;
+        this.setState({waitingOpponent: ""});
       }
       this.setState({gameStatus: r.status});
     })
@@ -124,8 +129,7 @@ class App extends Component<{}, AppState> {
         </header>
         {this.state.clientState?.end_state && <EndGame endState={this.state.clientState?.end_state}/>}
         {!this.state.gameId && <Create onCreate={this.onGameCreate} onJoin={this.onGameJoin}/>}
-        {this.state.gameId && !this.state.gameStatus?.utc_ready &&
-          <Waiting bodyText={`Game Code: ${this.state.gameId}`}/>}
+        {!!this.state.waitingOpponent && <Waiting bodyText={this.state.waitingOpponent}/>}
         {this.state.gameId && this.state.gameStatus?.utc_ready && !this.state.gameStatus?.utc_started &&
           <PickWord onWordPicked={this.onWordPicked}/>}
         {this.state.clientState &&
