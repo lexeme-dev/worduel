@@ -64,9 +64,8 @@ class WordTable extends Component<WordTableProps, WordTableState> {
       <Container className="word-table">
         {
           turns.map((guess_pair, idx: number) => {
-              const isCurrentTurn = idx + 1 == guessNumber;
+              const isCurrentTurn = idx + 1 === guessNumber;
               const opponentGuess = guess_pair[0].opponent ? guess_pair[0] : guess_pair[1];
-              opponentGuess.opponent = isCurrentTurn && this.props.opponentSubmittedGuess;
               return <Row className={"mx-auto pt-1 " + (((idx % 2) ? "words-primary" : "words-secondary"))}>
                 <div className="guess">
                   TURN {idx + 1}

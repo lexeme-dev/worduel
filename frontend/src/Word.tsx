@@ -1,7 +1,6 @@
 import React from 'react';
 import Tile from './Tile';
 import './Word.css';
-import {Guess, GuessResult, LetterState} from "./services/interfaces";
 import {GuessResultDisplay} from "./WordTable";
 
 

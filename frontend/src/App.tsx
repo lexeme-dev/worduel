@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import WordTable from "./WordTable";
-import {ClientState, GameBasicInfo, GameStatus, Player} from "./services/interfaces"
+import {ClientState, GameStatus, Player} from "./services/interfaces"
 import Create from "./Create";
 import GameService from "./services/GameService";
 import Waiting from "./Waiting";

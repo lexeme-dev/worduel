@@ -25,12 +25,12 @@ function Tile(props: TileProps) {
       <Card.Body>
         <Card.Text>
           <div className="overlay">
-            { props.letter.toString() == " " ?
+            { props.letter.toString() === " " ?
               <Fragment>&nbsp;</Fragment> :
               props.letter.toString()
             }
           </div>
-          { props.opponent && props.letter.toString() == " " ? <PersonFill className="person mb-1"/> : "" }
+          { props.opponent && props.letter.toString() === " " ? <PersonFill className="person mb-1"/> : "" }
         </Card.Text>
       </Card.Body>
     </Card>
