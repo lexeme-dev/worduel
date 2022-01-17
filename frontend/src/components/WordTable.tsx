@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
+import React, {Component, FormEventHandler} from 'react';
 import Word from './Word';
 import './WordTable.css';
-import {Container, Row, Form, Button} from 'react-bootstrap';
+import {Button, Container, Form, Row} from 'react-bootstrap';
 import {GuessResult, LetterState, MAX_TURNS} from "../services/interfaces";
+import GuessForm from "./GuessForm";
 
 export type OnGuess = (guess: string) => void;
 
@@ -84,23 +85,12 @@ class WordTable extends Component<WordTableProps, WordTableState> {
                 <Row className="guess-row" key={2 * idx + 1}>
                   <Word guess={guess_pair[1]} key={idx}/>
                 </Row>
-                {isCurrentTurn && this.props.showInput ?
-                  (<Row className="guess-row guess-form" key={-1}>
-                    <Form className="join-form pt-1 pb-1" onSubmit={(e) => {
-                      e.preventDefault();
-                      this.props.onGuess(this.state.guess);
-                    }}>
-                      <Form.Group>
-                        <Form.Control className="guess-enter mb-1" type="text" size="lg" placeholder="guess"
-                                      onChange={(e) =>
-                                        this.setState({guess: e.target.value})}/>
-                        <div className="d-grid gap-2">
-                          <Button variant="primary" className="join-button" type="submit"> GUESS </Button>
-                        </div>
-                      </Form.Group>
-                    </Form>
-                  </Row>) :
-                  ""
+                {isCurrentTurn && this.props.showInput &&
+                  <GuessForm key={-1} onSubmit={(e) => {
+                    e.preventDefault();
+                    this.props.onGuess(this.state.guess);
+                  }} onChange={(e) =>
+                    this.setState({guess: e.target.value})}/>
                 }
               </Row>;
             }
