@@ -50,6 +50,7 @@ class WordTable extends Component<WordTableProps, WordTableState> {
           accumulator.push(array.slice(currentIndex, currentIndex + 2));
         return accumulator;
       }, []);
+    turns.forEach(turn => turn.sort((a, b) => a.opponent ? 1 : -1))
     const turnsToAdd = MAX_TURNS - turns.length;
     const guessNumber = turns.length + 1;
     for (let i = 0; i < turnsToAdd; i += 1) {
@@ -57,16 +58,16 @@ class WordTable extends Component<WordTableProps, WordTableState> {
         {
           guess_word: "     ",
           letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.UNKNOWN],
-          opponent: this.props.isPlayerOne
+          opponent: false
         },
         {
           guess_word: "     ",
           letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.UNKNOWN],
-          opponent: !this.props.isPlayerOne
+          opponent: true
         }
       ])
     }
-    turns[guessNumber - 1][this.props.isPlayerOne ? 1 : 0].guess_word = this.state.guess.toUpperCase().padEnd(5, ' ');
+    turns[guessNumber - 1][0].guess_word = this.state.guess.toUpperCase().padEnd(5, ' ');
     return (
       <Container className="word-table">
         {
