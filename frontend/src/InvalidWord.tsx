@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import Alert from 'react-bootstrap/Alert'
 
 export type InvalidWordProps = {
-  bodyText: string;
 };
 
 function InvalidWord(props: InvalidWordProps) {

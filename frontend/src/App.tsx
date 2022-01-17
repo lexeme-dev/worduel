@@ -5,6 +5,7 @@ import {ClientState, GameStatus, Player} from "./services/interfaces"
 import Create from "./Create";
 import GameService from "./services/GameService";
 import Waiting from "./Waiting";
+import InvalidWord from "./InvalidWord";
 import PickWord from "./PickWord";
 import EndGame from "./EndGame";
 
@@ -52,13 +53,15 @@ class App extends Component<{}, AppState> {
   onWordPicked = (word: string) => {
     GameService.pickWord(this.state.gameId!, word, this.state.playerInfo?.secret_id!).then(r => {
       if (!r.status.utc_started) {
+        this.setState({invalidWord: false});
         this.setState({waitingOpponent: "...opponent is choosing a very secret word."});
         this.infoPollInterval = setInterval(this.pollInfoUntilStarted, 1000);
       } else {
+        this.setState({waitingOpponent: "", invalidWord: false});
         this.statePollInterval = setInterval(this.pollClientState, 1000);
       }
       this.setState({gameStatus: r.status});
-    });
+    }).catch((error) => {this.setState({invalidWord: true});});
   }
 
   pollInfoUntilReady = () => {
@@ -90,9 +93,10 @@ class App extends Component<{}, AppState> {
         if (r.status.utc_started) {
           this.statePollInterval = setInterval(this.pollClientState, 1000);
         }
+        this.setState({waitingOpponent: ""});
       }
       this.setState({gameStatus: r.status});
-    })
+    });
   }
 
   pollClientState = () => {
@@ -106,6 +110,9 @@ class App extends Component<{}, AppState> {
         clearInterval(this.statePollInterval! || this.stateReqCounter > 10_000);
         this.statePollInterval = undefined;
       }
+      if (!r.player.pending_guess) {
+        this.setState({waitingOpponent: ""});
+      }
       this.setState({clientState: r});
     })
   }
@@ -114,11 +121,14 @@ class App extends Component<{}, AppState> {
     this.stateReqCounter += 1;
     GameService.guessWord(this.state.gameId!, guessWord, this.state.playerInfo?.secret_id!).then(r => {
       if (r.end_state) {
+        this.setState({invalidWord: false, waitingOpponent: ""});
         clearInterval(this.statePollInterval!);
         this.statePollInterval = undefined;
       }
+      this.setState({invalidWord: false});
+      this.setState({waitingOpponent: "Waiting for opponent guess..."});
       this.setState({clientState: r});
-    })
+    }).catch((e) => {this.setState({invalidWord: true})});
   }
 
   render() {
@@ -128,9 +138,10 @@ class App extends Component<{}, AppState> {
           <h1 className="pt-3">BattleWord</h1>
         </header>
         {this.state.clientState?.end_state && <EndGame endState={this.state.clientState?.end_state}/>}
+        {this.state.invalidWord && <InvalidWord />}
         {!this.state.gameId && <Create onCreate={this.onGameCreate} onJoin={this.onGameJoin}/>}
         {!!this.state.waitingOpponent && <Waiting bodyText={this.state.waitingOpponent}/>}
-        {this.state.gameId && this.state.gameStatus?.utc_ready && !this.state.gameStatus?.utc_started &&
+        {this.state.gameId && this.state.gameStatus?.utc_ready && !this.state.gameStatus?.utc_started && !this.state.waitingOpponent &&
           <PickWord onWordPicked={this.onWordPicked}/>}
         {this.state.clientState &&
           <WordTable guesses={this.state.clientState?.guesses!} isPlayerOne={this.state.isPlayerOne}

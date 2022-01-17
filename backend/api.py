@@ -60,7 +60,10 @@ def game_guess(game_id: str):
     guess_word = request.args.get('guess_word').lower()
     try:
         game = game_manager.get_game(game_id)
-        game.make_guess(guess_word, player_secret)
+        g = game.make_guess(guess_word, player_secret)
+        if not g:
+            # not a valid guess
+            abort(422)
         return jsonify(game.get_client_state(player_secret))
     except PlayerNotFoundError:
         abort(422)
