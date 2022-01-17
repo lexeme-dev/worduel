@@ -5,6 +5,7 @@ import {ClientState, GameBasicInfo, GameStatus, Player} from "./services/interfa
 import Create from "./Create";
 import GameService from "./services/GameService";
 import Waiting from "./Waiting";
+import PickWord from "./PickWord";
 
 interface AppState {
   gameId?: string;
@@ -44,6 +45,15 @@ class App extends Component<{}, AppState> {
     })
   }
 
+  onWordPicked = (word: string) => {
+    GameService.pickWord(this.state.gameId!, word, this.state.playerInfo?.secret_id!).then(r => {
+      if (!r.status.utc_started) {
+        this.infoPollInterval = setInterval(this.pollInfoUntilStarted, 1000);
+      }
+      this.setState({gameStatus: r.status});
+    });
+  }
+
   pollInfoUntilReady = () => {
     this.infoReqCounter += 1;
     const reqNumber = this.infoReqCounter;
@@ -66,7 +76,7 @@ class App extends Component<{}, AppState> {
       if (reqNumber < this.infoReqCounter) {
         return;
       }
-      if (r.status.utc_ready) {
+      if (r.status.utc_started) {
         clearInterval(this.infoPollInterval!);
         this.infoPollInterval = undefined;
       }
@@ -79,10 +89,12 @@ class App extends Component<{}, AppState> {
       <div className="App">
         {this.state.gameId && !this.state.gameStatus?.utc_ready &&
           <Waiting bodyText={`Game Code: ${this.state.gameId}`}/>}
-        {this.state.playerInfo ?
+        {this.state.gameId && this.state.gameStatus?.utc_ready && !this.state.gameStatus?.utc_started &&
+          <PickWord onWordPicked={this.onWordPicked}/>}
+        {this.state.gameStatus?.utc_started &&
           <WordTable guesses={this.state.clientState?.guesses!} isPlayerOne={this.state.isPlayerOne}
-                     playerName={this.state.playerInfo.name}/> :
-          <Create onCreate={this.onGameCreate} onJoin={this.onGameJoin}/>}
+                     playerName={this.state.playerInfo!.name}/>}
+        {!this.state.gameId && <Create onCreate={this.onGameCreate} onJoin={this.onGameJoin}/>}
       </div>
     );
   }

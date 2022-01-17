@@ -7,7 +7,7 @@ import {GameBasicInfo, LetterState} from './services/interfaces';
 import {GuessResultDisplay} from './WordTable';
 import Word from './Word';
 
-export type OnWordPicked = (name: string) => void;
+export type OnWordPicked = (word: string) => void;
 
 export type PickWordProps = {
   onWordPicked: OnWordPicked;
