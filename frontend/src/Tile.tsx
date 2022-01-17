@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import logo from './logo.svg';
 import './Tile.css';
 import Card from 'react-bootstrap/Card'
+import { PersonFill } from 'react-bootstrap-icons';
 
 export enum TileVariant {
   Default = 'tile-default',
@@ -22,7 +23,13 @@ function Tile(props: TileProps) {
     <Card className={ "tile text-nowrap " + props.variant }>
       <Card.Body>
         <Card.Text>
-          { props.letter.toString() == " " ? <Fragment>&nbsp;</Fragment> : props.letter.toString() }
+          <div className="overlay">
+            { props.letter.toString() == " " ?
+              <Fragment>&nbsp;</Fragment> :
+              props.letter.toString()
+            }
+          </div>
+          <PersonFill className="person mb-1"/>
         </Card.Text>
       </Card.Body>
     </Card>

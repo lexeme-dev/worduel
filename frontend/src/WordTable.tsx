@@ -30,12 +30,20 @@ function WordTable(props: WordTableProps) {
               GUESS { idx + 1 }
             </div>
             <Row key={2*idx}>
+              <Col>
               <Word word={word_pair[0]} variants={props.words_variants[idx]} key={idx} />
-              <Person className="align-middle" size={30}/>
+              </Col>
+              <Col>
+              <Person className="mt-4" size={30}/>
+              </Col>
             </Row>
-            <Row className="p-2" key={2*idx + 1}>
+            <Row key={2*idx + 1}>
+              <Col>
               <Word word={word_pair[1]} variants={props.words_variants[idx]} key={idx}/>
-              <PersonFill size={30}/>
+              </Col>
+              <Col>
+              <PersonFill className="mt-4" size={30}/>
+              </Col>
             </Row>
           </Row>
         )

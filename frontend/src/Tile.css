@@ -30,3 +30,19 @@
 .tile-contains {
   background-color: var(--tile-contains-bg);
 }
+
+.card-body {
+  padding: 0px;
+  margin: 0px;
+}
+
+.overlay {
+  z-index: 9;
+  position: absolute;
+  margin-left: 12px;
+}
+
+.person {
+  color: #000000;
+  opacity: 0.1;
+}

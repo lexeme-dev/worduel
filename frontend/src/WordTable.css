@@ -14,3 +14,7 @@
   background-color: var(--word-secondary-bg);
   padding: 5px;
 }
+
+.row {
+  max-width: 400px;
+}

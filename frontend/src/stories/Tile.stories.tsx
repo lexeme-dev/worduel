@@ -47,3 +47,17 @@ LetterI.args = {
   letter: 'I',
   variant: TileVariant.Right,
 }
+
+export const Space = Template.bind({});
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+Space.args = {
+  letter: ' ',
+  variant: TileVariant.Right,
+}
+
+export const Person = Template.bind({});
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+Person.args = {
+  letter: ' ',
+  variant: TileVariant.Default,
+}

@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Cousine:wght@700&family=Fira+Sans&display=swap');
+@import 'bootstrap/dist/css/bootstrap';
+
 :root {
   --tile-default-bg: #C1CCD7;
   --tile-right-bg: #A0E8AF;
