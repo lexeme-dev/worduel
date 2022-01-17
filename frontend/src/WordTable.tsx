@@ -11,6 +11,7 @@ export type WordTableProps = {
   isPlayerOne: boolean;
   guesses: GuessResult[];
   onGuess: OnGuess;
+  opponentSubmittedGuess: boolean;
 }
 
 export type WordTableState = {
@@ -62,35 +63,40 @@ class WordTable extends Component<WordTableProps, WordTableState> {
     return (
       <Container className="word-table">
         {
-          turns.map((guess_pair, idx: number) =>
-            <Row className={"mx-auto pt-1 " + (((idx % 2) ? "words-primary" : "words-secondary"))}>
-              <div className="guess">
-                GUESS {idx + 1}
-              </div>
-              <Row key={2 * idx}>
-                <Word guess={guess_pair[0]} key={idx}/>
-              </Row>
-              <Row key={2 * idx + 1}>
-                <Word guess={guess_pair[1]} key={idx}/>
-              </Row>
-              {(idx + 1 == guessNumber) ?
-                (<Row key={-1}>
-                  <Form className="join-form">
-                    <Form.Group>
-                      <Form.Control className="join-enter" type="text" size="lg" placeholder="guess"
-                                    onChange={(e) => this.setState({guess: e.target.value})}/>
-                      <div className="d-grid gap-2">
-                        <Button variant="primary join-button"
-                                onClick={() => {
-                                  this.props.onGuess(this.state.guess);
-                                }}> GUESS </Button>
-                      </div>
-                    </Form.Group>
-                  </Form>
-                </Row>) :
-                ""
-              }
-            </Row>
+          turns.map((guess_pair, idx: number) => {
+              const isCurrentTurn = idx + 1 == guessNumber;
+              const opponentGuess = guess_pair[0].opponent ? guess_pair[0] : guess_pair[1];
+              opponentGuess.opponent = isCurrentTurn && this.props.opponentSubmittedGuess;
+              return <Row className={"mx-auto pt-1 " + (((idx % 2) ? "words-primary" : "words-secondary"))}>
+                <div className="guess">
+                  TURN {idx + 1}
+                </div>
+                <Row key={2 * idx}>
+                  <Word guess={guess_pair[0]} key={idx}/>
+                </Row>
+                <Row key={2 * idx + 1}>
+                  <Word guess={guess_pair[1]} key={idx}/>
+                </Row>
+                {isCurrentTurn ?
+                  (<Row key={-1}>
+                    <Form className="join-form">
+                      <Form.Group>
+                        <Form.Control className="join-enter" type="text" size="lg" placeholder="guess"
+                                      onChange={(e) =>
+                                        this.setState({guess: e.target.value})}/>
+                        <div className="d-grid gap-2">
+                          <Button variant="primary join-button"
+                                  onClick={() => {
+                                    this.props.onGuess(this.state.guess);
+                                  }}> GUESS </Button>
+                        </div>
+                      </Form.Group>
+                    </Form>
+                  </Row>) :
+                  ""
+                }
+              </Row>;
+            }
           )
         }
       </Container>

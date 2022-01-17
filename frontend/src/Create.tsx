@@ -43,14 +43,12 @@ class Create extends Component<CreateProps, CreateState> {
 
           <Form className="pt-3 join-form">
             <Form.Group className="mb-3">
-              <Form.Control className="join-enter" type="text" size="lg" placeholder="game-code"
-                            onChange={(e) => this.setState({joinGameId: e.target.value})}/>
               <Form.Control className="join-enter" type="text" size="lg" placeholder="Player Name"
                             onChange={(e) => this.setState({joinGameName: e.target.value})}/>
               <div className="d-grid gap-2">
                 <Button variant="primary join-button" size="lg"
-                        onClick={() => this.props.onJoin(this.state.joinGameName, this.state.joinGameId)}>
-                  JOIN GAME
+                        onClick={() => this.props.onCreate(this.state.joinGameName)}>
+                  CREATE GAME
                 </Button>
               </div>
             </Form.Group>
@@ -60,12 +58,14 @@ class Create extends Component<CreateProps, CreateState> {
           <br/>
           <Form className="join-form">
             <Form.Group className="mb-3">
+              <Form.Control className="join-enter" type="text" size="lg" placeholder="game-code"
+                            onChange={(e) => this.setState({joinGameId: e.target.value})}/>
               <Form.Control className="join-enter" type="text" size="lg" placeholder="Player Name"
                             onChange={(e) => this.setState({joinGameName: e.target.value})}/>
               <div className="d-grid gap-2">
                 <Button variant="primary join-button" size="lg"
-                        onClick={() => this.props.onCreate(this.state.joinGameName)}>
-                  CREATE GAME
+                        onClick={() => this.props.onJoin(this.state.joinGameName, this.state.joinGameId)}>
+                  JOIN GAME
                 </Button>
               </div>
             </Form.Group>
