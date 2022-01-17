@@ -16,30 +16,30 @@ export interface GameBasicInfo {
     player_names: string[];
 }
 
-interface GameStatus {
+export interface GameStatus {
     utc_ready?: number;
     utc_started?: number;
     utc_finished?: number;
 }
 
-interface Player {
+export interface Player {
     name: string;
     secret_id: string;
     pending_guess?: Guess;
 }
 
-interface Guess {
+export interface Guess {
     guess_word: string;
     player_name: string;
 }
 
-interface GuessResult {
+export interface GuessResult {
     guess_word: string
     player_name: string;
     letter_results: SolveState;
 }
 
-type EndState = {
+export type EndState = {
     tie: true;
     winner_name: undefined;
 } | {
@@ -47,10 +47,10 @@ type EndState = {
     winner_name: string;
 }
 
-type Knowledge = Record<Letter, Exclude<LetterState, LetterState.WRONG>>;
-type SolveState = LetterState[];
+export type Knowledge = Record<Letter, Exclude<LetterState, LetterState.WRONG>>;
+export type SolveState = LetterState[];
 
-enum LetterState {
+export enum LetterState {
     UNKNOWN = 0,
     WRONG = 1,
     PRESENT = 2,

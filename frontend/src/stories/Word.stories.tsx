@@ -1,7 +1,7 @@
 import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { TileVariant } from '../Tile';
-import Word, { WordProps } from '../Word';
+import {ComponentMeta, ComponentStory} from '@storybook/react';
+import Word from '../Word';
+import {LetterState} from "../services/interfaces";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -16,18 +16,27 @@ const Template: ComponentStory<typeof Word> = (args) => <Word {...args} />;
 export const Angst = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Angst.args = {
-  word: 'ANGST',
-  variants: [TileVariant.Default, TileVariant.Default, TileVariant.Default, TileVariant.Default, TileVariant.Default],
+  guess: {
+    guess_word: 'ANGST',
+    player_name: 'Varun',
+    letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.UNKNOWN],
+  }
 }
 
 export const Slyly = Template.bind({});
 Slyly.args = {
-  word: 'SLYLY',
-  variants: [TileVariant.Unknown, TileVariant.Default, TileVariant.Contains, TileVariant.Right, TileVariant.Wrong],
+  guess: {
+    guess_word: 'SLYLY',
+    player_name: 'Varun',
+    letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.PRESENT, LetterState.RIGHT, LetterState.WRONG]
+  }
 }
 
 export const Sl_ly = Template.bind({});
 Sl_ly.args = {
-  word: 'SL LY',
-  variants: [TileVariant.Unknown, TileVariant.Default, TileVariant.Contains, TileVariant.Right, TileVariant.Wrong],
+  guess: {
+    guess_word: 'SL LY',
+    player_name: 'Varun',
+    letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.PRESENT, LetterState.RIGHT, LetterState.WRONG]
+  }
 }

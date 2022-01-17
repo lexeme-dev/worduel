@@ -1,7 +1,8 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import Tile, { TileVariant } from '../Tile';
+import Tile from '../Tile';
+import {LetterState} from "../services/interfaces";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -17,47 +18,47 @@ export const LetterT = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 LetterT.args = {
   letter: 'T',
-  variant: TileVariant.Default,
+  letterState: LetterState.UNKNOWN,
 }
 
 export const LetterA = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 LetterA.args = {
   letter: 'A',
-  variant: TileVariant.Unknown,
+  letterState: LetterState.UNKNOWN,
 }
 
 export const LetterO = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 LetterO.args = {
   letter: 'O',
-  variant: TileVariant.Wrong,
+  letterState: LetterState.WRONG,
 }
 
 export const LetterK = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 LetterK.args = {
   letter: 'K',
-  variant: TileVariant.Contains,
+  letterState: LetterState.PRESENT,
 }
 
 export const LetterI = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 LetterI.args = {
   letter: 'I',
-  variant: TileVariant.Right,
+  letterState: LetterState.RIGHT,
 }
 
 export const Space = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Space.args = {
   letter: ' ',
-  variant: TileVariant.Right,
+  letterState: LetterState.RIGHT,
 }
 
 export const Person = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Person.args = {
   letter: ' ',
-  variant: TileVariant.Default,
+  letterState: LetterState.UNKNOWN,
 }

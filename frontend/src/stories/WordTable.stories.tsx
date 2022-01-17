@@ -1,7 +1,7 @@
 import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { TileVariant } from '../Tile';
+import {ComponentMeta, ComponentStory} from '@storybook/react';
 import WordTable from '../WordTable';
+import {LetterState} from "../services/interfaces";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -16,16 +16,46 @@ const Template: ComponentStory<typeof WordTable> = (args) => <WordTable {...args
 export const Angst = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Angst.args = {
-  words: ['ANGST', "     ", "AN   ", "  Y  ", "     ", "PYREX", "     ", "     "],
-  words_variants: [
-    [TileVariant.Default, TileVariant.Default, TileVariant.Default, TileVariant.Default, TileVariant.Default],
-    [TileVariant.Default, TileVariant.Wrong, TileVariant.Default, TileVariant.Default, TileVariant.Default],
-    [TileVariant.Default, TileVariant.Right, TileVariant.Default, TileVariant.Contains, TileVariant.Default],
-    [TileVariant.Default, TileVariant.Default, TileVariant.Right, TileVariant.Unknown, TileVariant.Default],
-    [TileVariant.Default, TileVariant.Default, TileVariant.Right, TileVariant.Unknown, TileVariant.Default],
-    [TileVariant.Default, TileVariant.Default, TileVariant.Right, TileVariant.Unknown, TileVariant.Default],
-    [TileVariant.Default, TileVariant.Default, TileVariant.Right, TileVariant.Unknown, TileVariant.Default],
-    [TileVariant.Default, TileVariant.Default, TileVariant.Right, TileVariant.Unknown, TileVariant.Default],
-    [TileVariant.Default, TileVariant.Default, TileVariant.Right, TileVariant.Unknown, TileVariant.Default],
+  guesses: [
+    {
+      guess_word: 'ANGST',
+      player_name: 'Varun',
+      letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.UNKNOWN],
+    },
+    {
+      guess_word: '     ',
+      player_name: 'Faiz',
+      letter_results: [LetterState.UNKNOWN, LetterState.WRONG, LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.UNKNOWN],
+    },
+    {
+      guess_word: 'AN   ',
+      player_name: 'Varun',
+      letter_results: [LetterState.UNKNOWN, LetterState.RIGHT, LetterState.UNKNOWN, LetterState.PRESENT, LetterState.UNKNOWN],
+    },
+    {
+      guess_word: '  Y  ',
+      player_name: 'Faiz',
+      letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.RIGHT, LetterState.UNKNOWN, LetterState.UNKNOWN],
+    },
+    {
+      guess_word: '     ',
+      player_name: 'Varun',
+      letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.RIGHT, LetterState.UNKNOWN, LetterState.UNKNOWN],
+    },
+    {
+      guess_word: 'PYREX',
+      player_name: 'Faiz',
+      letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.RIGHT, LetterState.UNKNOWN, LetterState.UNKNOWN],
+    },
+    {
+      guess_word: '     ',
+      player_name: 'Varun',
+      letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.RIGHT, LetterState.UNKNOWN, LetterState.UNKNOWN],
+    },
+    {
+      guess_word: '     ',
+      player_name: 'Faiz',
+      letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.RIGHT, LetterState.UNKNOWN, LetterState.UNKNOWN],
+    },
   ]
 }

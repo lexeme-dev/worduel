@@ -1,20 +1,18 @@
 import React from 'react';
-import Tile, { TileVariant } from './Tile';
+import Tile from './Tile';
 import './Word.css';
-import logo from './logo.svg';
-import Table from 'react-bootstrap/Table'
+import {Guess, GuessResult, LetterState} from "./services/interfaces";
 
 
 export type WordProps = {
-  word: string;
-  variants: TileVariant[];
+  guess: GuessResult;
 }
 
 function Word(props: WordProps) {
   return (
       <div className="word">
-          { props.word.split("").map((letter, idx: number) =>
-          <td key={idx}><Tile letter={letter} variant={props.variants[idx]} key={idx} /></td>
+          { props.guess.letter_results.map((state, idx: number) =>
+          <td key={idx}><Tile letter={props.guess.guess_word[idx]} letterState={state} key={idx} /></td>
           ) }
       </div>
   );
