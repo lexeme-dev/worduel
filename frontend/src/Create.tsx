@@ -32,8 +32,7 @@ class Create extends Component<CreateProps, CreateState> {
   render() {
     return (
       <div className="container-container">
-        <div className="create-container">
-          <h1> BattleWord </h1>
+        <div className="mx-auto create-container">
           BattleWord is a 1v1 word-guessing game inspired by Wordle.
           Each player chooses a five-letter secret word.
           Each player has four guesses to name their opponent’s secret word.
@@ -42,7 +41,7 @@ class Create extends Component<CreateProps, CreateState> {
 
           <br/>
 
-          <Form className="join-form">
+          <Form className="pt-3 join-form">
             <Form.Group className="mb-3">
               <Form.Control className="join-enter" type="text" size="lg" placeholder="game-code"
                             onChange={(e) => this.setState({joinGameId: e.target.value})}/>
@@ -57,7 +56,7 @@ class Create extends Component<CreateProps, CreateState> {
             </Form.Group>
           </Form>
           <br/>
-          OR
+          <div className="text-center lead">OR</div>
           <br/>
           <Form className="join-form">
             <Form.Group className="mb-3">

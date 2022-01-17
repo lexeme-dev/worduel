@@ -1,7 +1,7 @@
 @import 'variables';
 
 .join-form {
-  display: inline-block;
+  /*display: inline-block;*/
 }
 
 .join-enter {
@@ -10,7 +10,7 @@
 }
 
 .join-button {
-  margin: 5px;
+  /*margin: 5px;*/
   padding: 0;
   font-family: var(--text-font);
   background-color: var(--tile-contains-bg);
@@ -19,7 +19,7 @@
 }
 
 .create-button{
-  margin: 5px;
+  /*margin: 5px;*/
   font-family: var(--text-font);
   color: var(--tile-text-color);
   background-color: var(--tile-right-bg);
@@ -33,7 +33,9 @@ h1 {
   align: center;
   text-align: center;
   font-family: var(--text-font);
-  max-width: 300px;
+  max-width: 400px;
+  padding-left: 20px;
+  padding-right: 20px;
   text-align: justify;
 }
 

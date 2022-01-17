@@ -6,6 +6,7 @@ import Create from "./Create";
 import GameService from "./services/GameService";
 import Waiting from "./Waiting";
 import PickWord from "./PickWord";
+import EndGame from "./EndGame";
 
 interface AppState {
   gameId?: string;
@@ -63,7 +64,7 @@ class App extends Component<{}, AppState> {
       if (reqNumber < this.infoReqCounter) {
         return;
       }
-      if (r.status.utc_ready) {
+      if (r.status.utc_ready || this.infoReqCounter > 10_000) {
         clearInterval(this.infoPollInterval!);
         this.infoPollInterval = undefined;
       }
@@ -78,10 +79,12 @@ class App extends Component<{}, AppState> {
       if (reqNumber < this.infoReqCounter) {
         return;
       }
-      if (r.status.utc_started) {
+      if (r.status.utc_started || this.infoReqCounter > 10_000) {
         clearInterval(this.infoPollInterval!);
         this.infoPollInterval = undefined;
-        this.statePollInterval = setInterval(this.pollClientState, 1000);
+        if (r.status.utc_started) {
+          this.statePollInterval = setInterval(this.pollClientState, 1000);
+        }
       }
       this.setState({gameStatus: r.status});
     })
@@ -95,7 +98,7 @@ class App extends Component<{}, AppState> {
         return;
       }
       if (r.end_state) {
-        clearInterval(this.statePollInterval!);
+        clearInterval(this.statePollInterval! || this.stateReqCounter > 10_000);
         this.statePollInterval = undefined;
       }
       this.setState({clientState: r});
@@ -116,6 +119,10 @@ class App extends Component<{}, AppState> {
   render() {
     return (
       <div className="App">
+        <header>
+          <h1 className="pt-3">BattleWord</h1>
+        </header>
+        {!this.state.gameId && <Create onCreate={this.onGameCreate} onJoin={this.onGameJoin}/>}
         {this.state.gameId && !this.state.gameStatus?.utc_ready &&
           <Waiting bodyText={`Game Code: ${this.state.gameId}`}/>}
         {this.state.gameId && this.state.gameStatus?.utc_ready && !this.state.gameStatus?.utc_started &&
@@ -123,7 +130,7 @@ class App extends Component<{}, AppState> {
         {this.state.clientState &&
           <WordTable guesses={this.state.clientState?.guesses!} isPlayerOne={this.state.isPlayerOne}
                      playerName={this.state.playerInfo!.name} onGuess={this.onGuess}/>}
-        {!this.state.gameId && <Create onCreate={this.onGameCreate} onJoin={this.onGameJoin}/>}
+        {this.state.clientState?.end_state && <EndGame endState={this.state.clientState?.end_state}/>}
       </div>
     );
   }

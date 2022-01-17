@@ -63,7 +63,7 @@ class WordTable extends Component<WordTableProps, WordTableState> {
       <Container className="word-table">
         {
           turns.map((guess_pair, idx: number) =>
-            <Row className={"pt-1 " + (((idx % 2) ? "words-primary" : "words-secondary"))}>
+            <Row className={"mx-auto pt-1 " + (((idx % 2) ? "words-primary" : "words-secondary"))}>
               <div className="guess">
                 GUESS {idx + 1}
               </div>
@@ -83,7 +83,6 @@ class WordTable extends Component<WordTableProps, WordTableState> {
                         <Button variant="primary join-button"
                                 onClick={() => {
                                   this.props.onGuess(this.state.guess);
-                                  this.setState({guess: ""})
                                 }}> GUESS </Button>
                       </div>
                     </Form.Group>
