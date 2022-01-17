@@ -5,30 +5,51 @@
 }
 
 .join-enter {
-  max-width: 300px;
   margin: 5px;
-  font-family: var(--tile-font);
+  font-family: var(--text-font);
 }
 
 .join-button {
-  max-width: 300px;
   margin: 5px;
   padding: 0;
-  font-family: var(--tile-font);
+  font-family: var(--text-font);
   background-color: var(--tile-contains-bg);
   color: var(--tile-text-color);
+  height: 40px;
 }
 
 .create-button{
-  max-width: 300px;
   margin: 5px;
-  font-family: var(--tile-font);
+  font-family: var(--text-font);
   color: var(--tile-text-color);
   background-color: var(--tile-right-bg);
+}
+
+h1 {
+  align: center;
 }
 
 .create-container {
   align: center;
   text-align: center;
-  font-family: var(--tile-font);
+  font-family: var(--text-font);
+  max-width: 300px;
+  text-align: justify;
+}
+
+.container-container {
+  align: center;
+}
+
+.create-button:hover {
+  background-color: var(--tile-right-bg);
+  filter: brightness(0.95);
+  color: var(--tile-text-color);
+  box-shadow: 0px;
+}
+.join-button:hover {
+  background-color: var(--tile-contains-bg);
+  filter: brightness(0.95);
+  color: var(--tile-text-color);
+  box-shadow: 0px;
 }
