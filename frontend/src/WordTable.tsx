@@ -22,17 +22,15 @@ function WordTable(props: WordTableProps) {
             return accumulator;
           }, [])
         .map((guess_pair: GuessResult[], idx: number) =>
-          <Row className={((idx % 2) ? "words-primary" : "words-secondary")}>
+          <Row className={"pt-1 " + (((idx % 2) ? "words-primary" : "words-secondary"))}>
             <div className="guess">
               GUESS { idx + 1 }
             </div>
             <Row key={2*idx}>
-              <Word guess={guess_pair[0]} key={idx} />
-              <Person className="align-middle" size={30}/>
+              <Word guess={guess_pair[0]} key={idx} opponent={false}/>
             </Row>
-            <Row className="p-2" key={2*idx + 1}>
-              <Word guess={guess_pair[1]} key={idx}/>
-              <PersonFill size={30}/>
+            <Row key={2*idx + 1}>
+              <Word guess={guess_pair[1]} key={idx} opponent={true}/>
             </Row>
           </Row>
         )

@@ -20,7 +20,8 @@ Angst.args = {
     guess_word: 'ANGST',
     player_name: 'Varun',
     letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.UNKNOWN],
-  }
+  },
+  opponent: true,
 }
 
 export const Slyly = Template.bind({});
@@ -29,7 +30,8 @@ Slyly.args = {
     guess_word: 'SLYLY',
     player_name: 'Varun',
     letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.PRESENT, LetterState.RIGHT, LetterState.WRONG]
-  }
+  },
+  opponent: false,
 }
 
 export const Sl_ly = Template.bind({});
@@ -38,5 +40,16 @@ Sl_ly.args = {
     guess_word: 'SL LY',
     player_name: 'Varun',
     letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.PRESENT, LetterState.RIGHT, LetterState.WRONG]
-  }
+  },
+  opponent: true
+}
+
+export const Blank = Template.bind({});
+Blank.args = {
+  guess: {
+    guess_word: '     ',
+    player_name: 'Varun',
+    letter_results: [LetterState.UNKNOWN, LetterState.UNKNOWN, LetterState.PRESENT, LetterState.RIGHT, LetterState.WRONG]
+  },
+  opponent: true,
 }

@@ -16,6 +16,7 @@ const stateVariantMap: Record<LetterState, TileVariant> = {
 export type TileProps = {
   letter: string;
   letterState: LetterState;
+  opponent: boolean;
 }
 
 function Tile(props: TileProps) {
@@ -29,7 +30,7 @@ function Tile(props: TileProps) {
               props.letter.toString()
             }
           </div>
-          <PersonFill className="person mb-1"/>
+          { props.opponent && props.letter.toString() == " " ? <PersonFill className="person mb-1"/> : "" }
         </Card.Text>
       </Card.Body>
     </Card>

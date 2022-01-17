@@ -26,6 +26,7 @@ export const LetterA = Template.bind({});
 LetterA.args = {
   letter: 'A',
   letterState: LetterState.UNKNOWN,
+  opponent: true,
 }
 
 export const LetterO = Template.bind({});
@@ -33,6 +34,7 @@ export const LetterO = Template.bind({});
 LetterO.args = {
   letter: 'O',
   letterState: LetterState.WRONG,
+  opponent: true,
 }
 
 export const LetterK = Template.bind({});
@@ -40,6 +42,7 @@ export const LetterK = Template.bind({});
 LetterK.args = {
   letter: 'K',
   letterState: LetterState.PRESENT,
+  opponent: false,
 }
 
 export const LetterI = Template.bind({});
@@ -47,6 +50,7 @@ export const LetterI = Template.bind({});
 LetterI.args = {
   letter: 'I',
   letterState: LetterState.RIGHT,
+  opponent: false,
 }
 
 export const Space = Template.bind({});
@@ -54,6 +58,7 @@ export const Space = Template.bind({});
 Space.args = {
   letter: ' ',
   letterState: LetterState.RIGHT,
+  opponent: false,
 }
 
 export const Person = Template.bind({});
@@ -61,4 +66,5 @@ export const Person = Template.bind({});
 Person.args = {
   letter: ' ',
   letterState: LetterState.UNKNOWN,
+  opponent: true,
 }

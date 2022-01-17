@@ -1,5 +1,8 @@
 @import "variables.css";
 
+.word-table {
+  padding: 0px;
+}
 .card-text {
   white-space: nowrap;
   overflow: hidden;
@@ -8,7 +11,7 @@
 }
 
 .word {
-  padding: 5px;
+  padding: 2px;
   display: inline-flex;
   direction: horizontal;
   flex-grow: 0;
