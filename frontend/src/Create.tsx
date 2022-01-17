@@ -1,10 +1,9 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import 'bootstrap/dist/css/bootstrap.css';
 import './Create.css';
-import GameBasicInfo from './services/interfaces';
+import {GameBasicInfo} from './services/interfaces';
 
 export type OnCreate = (name: string) => void;
 export type OnJoin = (name: string, game_id: string) => void;
@@ -20,16 +19,17 @@ export type CreateState = {
   createGameId: string;
 }
 
-class Create extends Component<CreateProps, {}> {
+class Create extends Component<CreateProps, CreateState> {
   constructor(props: CreateProps) {
     super(props);
     this.state = {
-      joinGameId: "", 
-      joinGameName: "", 
+      joinGameId: "",
+      joinGameName: "",
       createGameId: ""
     };
   }
-  render () {
+
+  render() {
     return (
       <div className="container-container">
         <div className="create-container">
@@ -40,27 +40,32 @@ class Create extends Component<CreateProps, {}> {
           Each guess will reveal information about the letters in the opponent’s word, but also the guesser’s own word.
           Guess your opponent’s word first to win!
 
-          <br />
+          <br/>
 
           <Form className="join-form">
             <Form.Group className="mb-3">
-              <Form.Control className="join-enter" type="text" size="lg" placeholder="game-code" onChange={(e) => this.setState({joinGameId: e.target.value})>
-              <Form.Control className="join-enter" type="text" size="lg" placeholder="Player Name" onChange={(e) => this.setState({joinGameName: e.target.value})} />
-                <div className="d-grid gap-2">
-                  <Button variant="primary join-button" size="lg" onClick={() => this.props.onJoin(this.state.joinGameName, this.state.joinGameId)} />
-                    JOIN GAME
-                  </Button>
-                </div>
+              <Form.Control className="join-enter" type="text" size="lg" placeholder="game-code"
+                            onChange={(e) => this.setState({joinGameId: e.target.value})}/>
+              <Form.Control className="join-enter" type="text" size="lg" placeholder="Player Name"
+                            onChange={(e) => this.setState({joinGameName: e.target.value})}/>
+              <div className="d-grid gap-2">
+                <Button variant="primary join-button" size="lg"
+                        onClick={() => this.props.onJoin(this.state.joinGameName, this.state.joinGameId)}>
+                  JOIN GAME
+                </Button>
+              </div>
             </Form.Group>
           </Form>
-            <br />
-            OR
-            <br />
+          <br/>
+          OR
+          <br/>
           <Form className="join-form">
             <Form.Group className="mb-3">
-              <Form.Control className="join-enter" type="text" size="lg" placeholder="Player Name" onChange={(e) => this.setState({createGameName: e.target.value})} />
+              <Form.Control className="join-enter" type="text" size="lg" placeholder="Player Name"
+                            onChange={(e) => this.setState({joinGameName: e.target.value})}/>
               <div className="d-grid gap-2">
-                <Button variant="primary join-button" size="lg" onClick={() => this.props.onCreate(this.state.CreateGameName} />
+                <Button variant="primary join-button" size="lg"
+                        onClick={() => this.props.onCreate(this.state.joinGameName)}>
                   CREATE GAME
                 </Button>
               </div>
