@@ -68,7 +68,7 @@ class WordTable extends Component<WordTableProps, WordTableState> {
               const isCurrentTurn = idx + 1 === guessNumber;
               const opponentGuess = guess_pair[0].opponent ? guess_pair[0] : guess_pair[1];
               return <Row className={"mx-auto pt-1 " + (((idx % 2) ? "words-primary" : "words-secondary"))}>
-                <div className="guess">
+                <div className="guess pt-1">
                   TURN {idx + 1}
                 </div>
                 <Row key={2 * idx}>
@@ -79,7 +79,7 @@ class WordTable extends Component<WordTableProps, WordTableState> {
                 </Row>
                 {isCurrentTurn && this.props.showInput ?
                   (<Row key={-1}>
-                    <Form className="join-form" onSubmit={(e) => { e.preventDefault(); this.props.onGuess(this.state.guess); } }>
+                    <Form className="join-form pb-2" onSubmit={(e) => { e.preventDefault(); this.props.onGuess(this.state.guess); } }>
                       <Form.Group>
                         <Form.Control className="join-enter" type="text" size="lg" placeholder="guess"
                                       onChange={(e) =>

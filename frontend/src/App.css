@@ -1,7 +1,7 @@
 @import 'variables';
 
 body {
-  background-color: #fffaf0;
+  background-color: var(--app-background-color);
 }
 
 .App {
@@ -20,14 +20,12 @@ body {
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  font-family: serif;
+  background: var(--app-background-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .App-link {

@@ -134,19 +134,21 @@ class App extends Component<{}, AppState> {
   render() {
     return (
       <div className="App">
-        <header>
-          <h1 className="pt-3">BattleWord</h1>
+        <header className="App-header pt-3 pb-1">
+          <h1>BattleWord</h1>
         </header>
-        {this.state.clientState?.end_state && <EndGame endState={this.state.clientState?.end_state}/>}
-        {this.state.invalidWord && <InvalidWord />}
-        {!this.state.gameId && <Create onCreate={this.onGameCreate} onJoin={this.onGameJoin}/>}
-        {!!this.state.waitingOpponent && <Waiting bodyText={this.state.waitingOpponent}/>}
-        {this.state.gameId && this.state.gameStatus?.utc_ready && !this.state.gameStatus?.utc_started && !this.state.waitingOpponent &&
-          <PickWord onWordPicked={this.onWordPicked}/>}
-        {this.state.clientState &&
-          <WordTable guesses={this.state.clientState?.guesses!} isPlayerOne={this.state.isPlayerOne}
-                     playerName={this.state.playerInfo!.name} onGuess={this.onGuess} showInput={!this.state.waitingOpponent}
-                     opponentSubmittedGuess={this.state.clientState.opponent_submitted_guess}/>}
+        <div className="App-body">
+          {this.state.clientState?.end_state && <EndGame endState={this.state.clientState?.end_state}/>}
+          {this.state.invalidWord && <InvalidWord />}
+          {!this.state.gameId && <Create onCreate={this.onGameCreate} onJoin={this.onGameJoin}/>}
+          {!!this.state.waitingOpponent && <Waiting bodyText={this.state.waitingOpponent}/>}
+          {this.state.gameId && this.state.gameStatus?.utc_ready && !this.state.gameStatus?.utc_started && !this.state.waitingOpponent &&
+            <PickWord onWordPicked={this.onWordPicked}/>}
+          {this.state.clientState &&
+            <WordTable guesses={this.state.clientState?.guesses!} isPlayerOne={this.state.isPlayerOne}
+                       playerName={this.state.playerInfo!.name} onGuess={this.onGuess} showInput={!this.state.waitingOpponent}
+                       opponentSubmittedGuess={this.state.clientState.opponent_submitted_guess}/>}
+        </div>
       </div>
     );
   }
