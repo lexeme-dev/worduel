@@ -6,7 +6,7 @@ import WordTable from "./WordTable";
 function App() {
   return (
     <div className="App">
-      <WordTable guesses={[]} />
+      <WordTable guesses={[]} isPlayerOne playerName={"Faiz"} />
     </div>
   );
 }

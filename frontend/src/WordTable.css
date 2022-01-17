@@ -1,9 +1,11 @@
 @import 'variables.css';
 .word-table {
+  width: 100%;
 }
 
 .guess {
   font-family: "Fira Sans", sans-serif;
+  text-align: left;
 }
 
 .words-primary {
