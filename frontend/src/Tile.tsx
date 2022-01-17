@@ -27,7 +27,7 @@ function Tile(props: TileProps) {
           <div className="overlay">
             { props.letter.toString() === " " ?
               <Fragment>&nbsp;</Fragment> :
-              props.letter.toString()
+              props.letter.toString().toUpperCase()
             }
           </div>
           { props.opponent && props.letter.toString() === " " ? <PersonFill className="person mb-1"/> : "" }
