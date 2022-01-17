@@ -79,16 +79,13 @@ class WordTable extends Component<WordTableProps, WordTableState> {
                 </Row>
                 {isCurrentTurn ?
                   (<Row key={-1}>
-                    <Form className="join-form">
+                    <Form className="join-form" onSubmit={(e) => { e.preventDefault(); this.props.onGuess(this.state.guess); } }>
                       <Form.Group>
                         <Form.Control className="join-enter" type="text" size="lg" placeholder="guess"
                                       onChange={(e) =>
                                         this.setState({guess: e.target.value})}/>
                         <div className="d-grid gap-2">
-                          <Button variant="primary join-button"
-                                  onClick={() => {
-                                    this.props.onGuess(this.state.guess);
-                                  }}> GUESS </Button>
+                          <Button variant="primary" className="join-button" type="submit"> GUESS </Button>
                         </div>
                       </Form.Group>
                     </Form>

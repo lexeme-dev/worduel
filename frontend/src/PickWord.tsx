@@ -41,14 +41,13 @@ class PickWord extends Component<PickWordProps, PickWordState> {
     return (
       <div className="pick-word-wrapper">
         <Word guess={guess}/>
-        <Form className="join-form">
+        <Form className="join-form" onSubmit={(e) => { e.preventDefault(); this.props.onWordPicked(this.state.word)} }>
           <Form.Group className="mb-3">
             <Form.Control className="join-enter" type="text" size="lg" placeholder="Pick your secret word"
                           onChange={(e) => this.setState({word: e.target.value})}/>
             <div className="d-grid gap-2">
-              <Button variant="primary join-button" size="lg"
-                      onClick={() => this.props.onWordPicked(this.state.word)}>
-                ENTER WORD
+              <Button variant="primary join-button" size="lg">
+                ENTER SECRET WORD
               </Button>
             </div>
           </Form.Group>
