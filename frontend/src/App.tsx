@@ -102,6 +102,17 @@ class App extends Component<{}, AppState> {
     })
   }
 
+  onGuess = (guessWord: string) => {
+    this.stateReqCounter += 1;
+    GameService.guessWord(this.state.gameId!, guessWord, this.state.playerInfo?.secret_id!).then(r => {
+      if (r.end_state) {
+        clearInterval(this.statePollInterval!);
+        this.statePollInterval = undefined;
+      }
+      this.setState({clientState: r});
+    })
+  }
+
   render() {
     return (
       <div className="App">
@@ -111,7 +122,7 @@ class App extends Component<{}, AppState> {
           <PickWord onWordPicked={this.onWordPicked}/>}
         {this.state.clientState &&
           <WordTable guesses={this.state.clientState?.guesses!} isPlayerOne={this.state.isPlayerOne}
-                     playerName={this.state.playerInfo!.name}/>}
+                     playerName={this.state.playerInfo!.name} onGuess={this.onGuess}/>}
         {!this.state.gameId && <Create onCreate={this.onGameCreate} onJoin={this.onGameJoin}/>}
       </div>
     );

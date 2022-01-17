@@ -23,7 +23,7 @@ class GameService {
   }
 
   static guessWord(game_id: string, guess_word: string, player_secret: string): Promise<ClientState> {
-    return requester.post(`/game/${game_id}/guess`, {params: {guess_word, player_secret}}).then(r => r.data);
+    return requester.post(`/game/${game_id}/guess`,  {}, {params: {guess_word, player_secret}}).then(r => r.data);
   }
 }
 
