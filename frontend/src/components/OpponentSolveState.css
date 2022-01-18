@@ -1,3 +1,7 @@
 table {
     margin: 0 auto;
 }
+
+.opponent-progress {
+    font-size: 18px;
+}

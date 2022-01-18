@@ -166,9 +166,9 @@ class App extends Component<{}, AppState> {
                        showInput={!this.state.waitingOpponent}
                        opponentSubmittedGuess={this.state.clientState.opponent_submitted_guess}/>}
         </div>
-        <footer className="App-footer">
-          {this.state.clientState && <GuessKeyboard knowledge={this.state.clientState.letter_knowledge} />}
-        </footer>
+        {/*<footer className="App-footer">*/}
+        {/*  {this.state.clientState && <GuessKeyboard knowledge={this.state.clientState.letter_knowledge} />}*/}
+        {/*</footer>*/}
       </div>
     );
   }

@@ -8,6 +8,10 @@ body {
   text-align: center;
 }
 
+.opponent-progress {
+  color: grey;
+}
+
 /*.App-body {*/
 /*  overflow-y: scroll;*/
 /*}*/
