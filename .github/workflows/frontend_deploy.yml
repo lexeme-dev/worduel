@@ -18,7 +18,7 @@ jobs:
       - name: Install and Build
         run: | # Install npm packages and build the Storybook files
           yarn install
-          REACT_APP_BATTLEWORD_API_URL=https://api.battleword.faizsurani.com CI= yarn build
+          REACT_APP_BATTLEWORD_API_URL=https://api.battleword.io CI= yarn build
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
