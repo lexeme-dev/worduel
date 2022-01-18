@@ -46,7 +46,7 @@ class PickWord extends Component<PickWordProps, PickWordState> {
             <Form.Control className="join-enter" type="text" size="lg" placeholder="Pick your secret word"
                           onChange={(e) => this.setState({word: e.target.value})}/>
             <div className="d-grid gap-2">
-              <Button variant="primary join-button" size="lg">
+              <Button type="submit" variant="primary join-button" size="lg">
                 ENTER SECRET WORD
               </Button>
             </div>
