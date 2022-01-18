@@ -116,28 +116,26 @@ class App extends Component<{}, AppState> {
       if (reqNumber < this.stateReqCounter) {
         return;
       }
-      if (r.end_state) {
-        clearInterval(this.statePollInterval! || this.stateReqCounter > 10_000);
-        this.statePollInterval = undefined;
-      }
       if (!r.player.pending_guess) {
         this.setState({waitingOpponent: ""});
       }
       this.setState({clientState: r});
+      if (r.end_state) {
+        clearInterval(this.statePollInterval! || this.stateReqCounter > 10_000);
+        this.statePollInterval = undefined;
+      }
     })
   }
 
   onGuess = (guessWord: string) => {
     this.stateReqCounter += 1;
     GameService.guessWord(this.state.gameId!, guessWord, this.state.playerInfo?.secret_id!).then(r => {
+      this.setState({invalidWord: false, waitingOpponent: "Waiting for opponent guess...", clientState: r});
       if (r.end_state) {
         this.setState({invalidWord: false, waitingOpponent: ""});
         clearInterval(this.statePollInterval!);
         this.statePollInterval = undefined;
       }
-      this.setState({invalidWord: false});
-      this.setState({waitingOpponent: "Waiting for opponent guess..."});
-      this.setState({clientState: r});
     }).catch((e) => {
       this.setState({invalidWord: true})
     });
