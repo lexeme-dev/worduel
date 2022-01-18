@@ -152,11 +152,11 @@ class App extends Component<{}, AppState> {
             <OpponentSolveState word={this.state.clientState.word}
                                 opponentSolveState={this.state.clientState.opponent_solve_state}/>
           }
-        </header>
-        <div className="App-body">
           {this.state.clientState?.end_state && <EndGame endState={this.state.clientState?.end_state}/>}
           {this.state.invalidWord && <InvalidWord/>}
           {!!this.state.waitingOpponent && <Waiting bodyText={this.state.waitingOpponent}/>}
+        </header>
+        <div className="App-body">
           {!this.state.gameId && <Create onCreate={this.onGameCreate} onJoin={this.onGameJoin}/>}
           {this.state.gameId && this.state.gameStatus?.utc_ready && !this.state.gameStatus?.utc_started && !this.state.waitingOpponent &&
             <PickWord onWordPicked={this.onWordPicked}/>}

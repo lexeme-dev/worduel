@@ -17,12 +17,14 @@ body {
 /*}*/
 
 .App-header {
-  font-family: serif;
   background: var(--app-background-color);
   position: sticky;
   top: 0;
   z-index: 100;
-  font-size: calc(10px + 2vmin);
+}
+
+.App-header > h1 {
+  font-family: serif;
 }
 
 .App-footer {
