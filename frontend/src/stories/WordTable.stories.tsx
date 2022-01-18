@@ -41,5 +41,4 @@ Angst.args = {
   ],
   playerName: "Faiz",
   isPlayerOne: true,
-  onGuess: action('onGuess')
 }
