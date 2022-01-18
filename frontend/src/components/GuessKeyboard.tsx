@@ -28,7 +28,7 @@ function GuessKeyboard(props: GuessKeyboardProps) {
           <Row className="justify-content-md-center" key={i}>
             {keys.map((key, j) =>
               <Col className="key-col" key={j}>
-                <Button className={stateVariantMap[ props.knowledge[key.toLowerCase()] || LetterState.UNKNOWN ] } size="sm">
+                <Button className={stateVariantMap[props.knowledge[key.toLowerCase()]] } size="sm">
                   {key}
                 </Button>
               </Col>
