@@ -59,18 +59,15 @@ class Word:
         guess_result = self.__get_guess_result(guess)
         self.guesses.append(guess_result)
         for i, letter_result in enumerate(guess_result.letter_results):
-            curr_letter = guess.guess_word[i]
             # The enum values represent ascending amounts of knowledge, so we can update the state with max()
-            self.knowledge[curr_letter] = max(self.knowledge[curr_letter], letter_result)
+            self.knowledge[guess.guess_word[i]] = max(self.knowledge[guess.guess_word[i]], letter_result)
         for i, c in enumerate(self.word):
-            val = 0
-            if c in guess.guess_word:
-                if guess.guess_word[i] == c:
-                    val = LetterState.RIGHT
-                else:
-                    val = LetterState.PRESENT
-            if val != LetterState.WRONG:  # WRONG is not relevant for the cumulative solve state
-                self.cumulative_solve_state[i] = max(self.cumulative_solve_state[i], val)
+            letter_state = LetterState.UNKNOWN
+            if guess.guess_word[i] == c:
+                letter_state = LetterState.RIGHT
+            elif c in guess.guess_word:
+                letter_state = LetterState.PRESENT
+            self.cumulative_solve_state[i] = max(self.cumulative_solve_state[i], letter_state)
 
     def __get_guess_result(self, guess: Guess) -> GuessResult:
         letter_results = []
