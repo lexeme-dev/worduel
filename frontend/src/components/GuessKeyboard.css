@@ -1,0 +1,38 @@
+.guess-keyboard > .container {
+}
+
+.guess-keyboard > .container > .row {
+    justify-content: center;
+}
+
+.key-col {
+    padding: 0;
+    width: 40px;
+    height: 50px;
+    max-width: 35px;
+    max-height: 50px;
+}
+
+.key-col > button {
+    color: black;
+    border: none;
+    width: 30px;
+    height: 40px;
+    font-size: 16px;
+}
+
+.letter-unknown {
+    background: var(--tile-default-bg);
+}
+
+.letter-wrong {
+    background: var(--tile-wrong-bg);
+}
+
+.letter-present {
+    background: var(--tile-contains-bg);
+}
+
+.letter-right {
+    background: var(--tile-right-bg);
+}

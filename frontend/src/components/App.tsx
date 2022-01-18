@@ -9,6 +9,7 @@ import InvalidWord from "./InvalidWord";
 import PickWord from "./PickWord";
 import EndGame from "./EndGame";
 import OpponentSolveState from "./OpponentSolveState";
+import GuessKeyboard from "./GuessKeyboard";
 
 interface AppState {
   gameId?: string;
@@ -155,8 +156,8 @@ class App extends Component<{}, AppState> {
         <div className="App-body">
           {this.state.clientState?.end_state && <EndGame endState={this.state.clientState?.end_state}/>}
           {this.state.invalidWord && <InvalidWord/>}
-          {!this.state.gameId && <Create onCreate={this.onGameCreate} onJoin={this.onGameJoin}/>}
           {!!this.state.waitingOpponent && <Waiting bodyText={this.state.waitingOpponent}/>}
+          {!this.state.gameId && <Create onCreate={this.onGameCreate} onJoin={this.onGameJoin}/>}
           {this.state.gameId && this.state.gameStatus?.utc_ready && !this.state.gameStatus?.utc_started && !this.state.waitingOpponent &&
             <PickWord onWordPicked={this.onWordPicked}/>}
           {this.state.clientState &&
@@ -165,6 +166,9 @@ class App extends Component<{}, AppState> {
                        showInput={!this.state.waitingOpponent}
                        opponentSubmittedGuess={this.state.clientState.opponent_submitted_guess}/>}
         </div>
+        <footer className="App-footer">
+          {this.state.clientState && <GuessKeyboard knowledge={this.state.clientState.letter_knowledge} />}
+        </footer>
       </div>
     );
   }

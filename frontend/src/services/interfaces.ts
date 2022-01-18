@@ -49,7 +49,7 @@ export type EndState = {
     winner_name: string;
 }
 
-export type Knowledge = Record<Letter, Exclude<LetterState, LetterState.WRONG>>;
+export type Knowledge = Record<string, LetterState>;
 export type SolveState = LetterState[];
 
 export enum LetterState {
@@ -59,7 +59,7 @@ export enum LetterState {
     RIGHT = 3
 }
 
-type Letter =
+export type Letter =
     'a'
     | 'b'
     | 'c'

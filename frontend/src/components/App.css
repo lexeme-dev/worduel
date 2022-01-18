@@ -8,16 +8,9 @@ body {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+/*.App-body {*/
+/*  overflow-y: scroll;*/
+/*}*/
 
 .App-header {
   font-family: serif;
@@ -26,6 +19,14 @@ body {
   top: 0;
   z-index: 100;
   font-size: calc(10px + 2vmin);
+}
+
+.App-footer {
+  background: var(--app-background-color);
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  z-index: 99;
 }
 
 .App-link {
