@@ -18,6 +18,7 @@ class GameManager:
         return new_game
 
     def get_game(self, game_id: str) -> Game:
+        game_id = game_id.lower()
         if game_id not in self.current_games:
             raise GameNotFoundError()
         return self.current_games[game_id]
