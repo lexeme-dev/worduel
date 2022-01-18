@@ -10,8 +10,6 @@ jobs:
     defaults:
       run:
         working-directory: ./frontend
-    env:
-      BATTLEWORD_API_URL: api.battleword.faizsurani.com
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.1
@@ -20,7 +18,7 @@ jobs:
       - name: Install and Build
         run: | # Install npm packages and build the Storybook files
           yarn install
-          CI= yarn build
+          REACT_APP_BATTLEWORD_API_URL=https://api.battleword.faizsurani.com CI= yarn build
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
