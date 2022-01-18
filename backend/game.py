@@ -59,7 +59,7 @@ class Word:
         guess_result = self.__get_guess_result(guess)
         self.guesses.append(guess_result)
         for i, letter_result in enumerate(guess_result.letter_results):
-            curr_letter = self.word[i]
+            curr_letter = guess.guess_word[i]
             # The enum values represent ascending amounts of knowledge, so we can update the state with max()
             self.knowledge[curr_letter] = max(self.knowledge[curr_letter], letter_result)
         for i, c in enumerate(self.word):
