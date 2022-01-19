@@ -26,7 +26,7 @@ class GameManager:
     def cleanup_finished_games(self):
         cleanup_list = []
         for game_id, game in self.current_games.items():
-            if game.utc_finished:
+            if game.status.utc_finished:
                 cleanup_list.append(game_id)
         for game_id in cleanup_list:
             self.current_games.pop(game_id)
