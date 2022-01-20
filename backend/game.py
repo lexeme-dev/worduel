@@ -61,12 +61,17 @@ class Word:
         for i, letter_result in enumerate(guess_result.letter_results):
             # The enum values represent ascending amounts of knowledge, so we can update the state with max()
             self.knowledge[guess.guess_word[i]] = max(self.knowledge[guess.guess_word[i]], letter_result)
+        letterdict = {}
         for i, c in enumerate(self.word):
             letter_state = LetterState.UNKNOWN
+            letterdict[c] = letterdict.get(c, 0) + 1
             if guess.guess_word[i] == c:
                 letter_state = LetterState.RIGHT
-            elif c in guess.guess_word:
+                letterdict[c] -= 1
+        for i, c in enumerate(self.word):
+            if c in guess.guess_word and letterdict[c]:
                 letter_state = LetterState.PRESENT
+                letterdict[c] -= 1
             self.cumulative_solve_state[i] = max(self.cumulative_solve_state[i], letter_state)
 
     def __get_guess_result(self, guess: Guess) -> GuessResult:
