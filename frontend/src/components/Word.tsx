@@ -6,6 +6,7 @@ import {GuessResultDisplay} from "./WordTable";
 
 export type WordProps = {
   guess: GuessResultDisplay;
+  small: boolean;
 }
 
 function Word(props: WordProps) {
@@ -13,7 +14,7 @@ function Word(props: WordProps) {
     <table>
       <tr className="word">
           { props.guess.letter_results.map((state, idx: number) =>
-          <td key={idx}><Tile letter={props.guess.guess_word[idx]} letterState={state} key={idx} opponent={props.guess.opponent}/></td>
+          <td key={idx}><Tile letter={props.guess.guess_word[idx]} letterState={state} key={idx} opponent={props.guess.opponent} small={props.small}/></td>
           ) }
       </tr>
     </table>

@@ -17,11 +17,12 @@ export type TileProps = {
   letter: string;
   letterState: LetterState;
   opponent: boolean;
+  small: boolean;
 }
 
 function Tile(props: TileProps) {
   return (
-    <Card className={ "tile text-nowrap " + stateVariantMap[props.letterState] }>
+    <Card className={ "tile text-nowrap " + stateVariantMap[props.letterState] + (props.small ? " tile-small" : "")}>
       <Card.Body>
         <Card.Text>
           <div className="overlay">

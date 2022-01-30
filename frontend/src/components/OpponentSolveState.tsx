@@ -20,7 +20,7 @@ function OpponentSolveState(props: OpponentSolveStateProps) {
   return (
     <Fragment>
       <div className="opponent-progress">Opponent Progress</div>
-      <Word guess={displayState} />
+      <Word guess={displayState} small={true}/>
     </Fragment>
   );
 }
