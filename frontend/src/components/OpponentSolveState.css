@@ -1,7 +1,15 @@
+@import 'variables.css';
 table {
     margin: 0 auto;
 }
 
 .opponent-progress {
-    font-size: 18px;
+   font-size: 12px;
+}
+
+.opponent-progress-container {
+   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+   margin-top: 0px;
+   border-bottom: 1px solid black;
+   padding-bottom: 3px;
 }

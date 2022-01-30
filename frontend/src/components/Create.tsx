@@ -32,7 +32,7 @@ class Create extends Component<CreateProps, CreateState> {
     return (
       <div className="container-container">
         <div className="mx-auto create-container">
-          BattleWord is a 1v1 word-guessing game inspired by Wordle.
+          Worduel is a 1v1 word-guessing game inspired by Wordle.
           Each player chooses a five-letter secret word.
           Each player has four guesses to name their opponent’s secret word.
           Each guess will reveal information about the letters in the opponent’s word, but also the guesser’s own word.
