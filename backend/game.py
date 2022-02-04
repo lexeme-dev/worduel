@@ -61,25 +61,35 @@ class Word:
         for i, letter_result in enumerate(guess_result.letter_results):
             # The enum values represent ascending amounts of knowledge, so we can update the state with max()
             self.knowledge[guess.guess_word[i]] = max(self.knowledge[guess.guess_word[i]], letter_result)
+        letterdict = {}
         for i, c in enumerate(self.word):
             letter_state = LetterState.UNKNOWN
+            letterdict[c] = letterdict.get(c, 0) + 1
             if guess.guess_word[i] == c:
                 letter_state = LetterState.RIGHT
-            elif c in guess.guess_word:
+                letterdict[c] -= 1
+        for i, c in enumerate(self.word):
+            if c in guess.guess_word and letterdict[c]:
                 letter_state = LetterState.PRESENT
+                letterdict[c] -= 1
             self.cumulative_solve_state[i] = max(self.cumulative_solve_state[i], letter_state)
 
     def __get_guess_result(self, guess: Guess) -> GuessResult:
-        letter_results = []
+        letter_results = [LetterState.WRONG] * 5
+        count_dict = {}
+        for w in self.word:
+            count_dict[w] = count_dict.get(w, 0) + 1
+        print(count_dict)
         for i, c in enumerate(guess.guess_word):
-            res: LetterState
             if self.word[i] == c:
-                res = LetterState.RIGHT
-            elif c in self.word:
-                res = LetterState.PRESENT
-            else:
-                res = LetterState.WRONG
-            letter_results.append(res)
+                letter_results[i] = LetterState.RIGHT
+                count_dict[c] -= 1
+        for i, c in enumerate(guess.guess_word):
+            if letter_results[i] == LetterState.RIGHT:
+                continue
+            if count_dict.get(c, 0):
+                letter_results[i] = LetterState.PRESENT
+                count_dict[c] -= 1
         if self.word == guess.guess_word:
             self.solved = True
         return GuessResult(guess_word=guess.guess_word, letter_results=letter_results, player_name=guess.player_name)
