@@ -24,7 +24,7 @@ body {
 }
 
 .App-header > h1 {
-  font-family: serif;
+  font-family: var(--tile-font);
 }
 
 .App-footer {

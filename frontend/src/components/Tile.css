@@ -10,6 +10,7 @@
   border-radius: 5%;
   margin: var(--tile-margin);
   padding: 0px;
+  padding-left: 12px;
   text-align: center;
   vertical-align: middle;
   line-height: 140%;
@@ -39,10 +40,18 @@
 .overlay {
   z-index: 9;
   position: absolute;
-  margin-left: 12px;
+  margin-left: 0px;
 }
 
 .person {
   color: #000000;
   opacity: 0.1;
+}
+
+.tile-small {
+  width: var(--tile-small-size);
+  height: var(--tile-small-size);
+  padding-left: 8px;
+  font-size: var(--tile-small-font-size);
+  line-height: 125%;
 }

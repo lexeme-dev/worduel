@@ -13,7 +13,12 @@
   --tile-font: 'Cousine', monospace;
   --tile-font-size: 40px;
 
+  --tile-small-size: 40px;
+  --tile-small-font-size: 36px;
+
   --word-secondary-bg: #EEEEEE;
+
+  --header-bg: #DDDDDD;
 
   --table-width: 300px;
   --text-font: 'Fira Sans', sans-serif;

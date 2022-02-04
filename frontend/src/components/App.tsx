@@ -152,10 +152,11 @@ class App extends Component<{}, AppState> {
     return (
       <div className="App">
         <header className="App-header pt-3 pb-1">
-          <h1>BattleWord</h1>
-          {this.state.clientState &&
+          {this.state.clientState ?
             <OpponentSolveState word={this.state.clientState.word}
                                 opponentSolveState={this.state.clientState.opponent_solve_state}/>
+            :
+            <h1> WORDUEL </h1>
           }
           {this.state.clientState?.end_state &&
             <EndGame endState={this.state.clientState?.end_state}/>}

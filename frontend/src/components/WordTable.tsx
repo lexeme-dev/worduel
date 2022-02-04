@@ -58,10 +58,10 @@ function WordTable(props: WordTableProps) {
                 TURN {idx + 1}
               </div>
               <Row className="guess-row" key={2 * idx}>
-                <Word guess={guess_pair[0]} key={idx}/>
+                <Word guess={guess_pair[0]} key={idx} small={false}/>
               </Row>
               <Row className="guess-row" key={2 * idx + 1}>
-                <Word guess={guess_pair[1]} key={idx}/>
+                <Word guess={guess_pair[1]} key={idx} small={false}/>
               </Row>
             </Row>;
           }
