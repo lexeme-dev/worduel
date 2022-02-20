@@ -61,35 +61,33 @@ class Word:
         for i, letter_result in enumerate(guess_result.letter_results):
             # The enum values represent ascending amounts of knowledge, so we can update the state with max()
             self.knowledge[guess.guess_word[i]] = max(self.knowledge[guess.guess_word[i]], letter_result)
-        letterdict = {}
-        for i, c in enumerate(self.word):
-            letter_state = LetterState.UNKNOWN
-            letterdict[c] = letterdict.get(c, 0) + 1
-            if guess.guess_word[i] == c:
-                letter_state = LetterState.RIGHT
-                letterdict[c] -= 1
-        for i, c in enumerate(self.word):
-            if c in guess.guess_word and letterdict[c]:
-                letter_state = LetterState.PRESENT
-                letterdict[c] -= 1
+
+        converse_results = Word._get_letter_matches(guess.guess_word, self.word)
+        for i, letter_state in enumerate(converse_results):
+            if letter_state == LetterState.WRONG:
+                continue
             self.cumulative_solve_state[i] = max(self.cumulative_solve_state[i], letter_state)
 
-    def __get_guess_result(self, guess: Guess) -> GuessResult:
+    @staticmethod
+    def _get_letter_matches(word_str: str, guess_str: str):
         letter_results = [LetterState.WRONG] * 5
         count_dict = {}
-        for w in self.word:
+        for w in word_str:
             count_dict[w] = count_dict.get(w, 0) + 1
-        print(count_dict)
-        for i, c in enumerate(guess.guess_word):
-            if self.word[i] == c:
+        for i, c in enumerate(guess_str):
+            if word_str[i] == c:
                 letter_results[i] = LetterState.RIGHT
                 count_dict[c] -= 1
-        for i, c in enumerate(guess.guess_word):
+        for i, c in enumerate(guess_str):
             if letter_results[i] == LetterState.RIGHT:
                 continue
             if count_dict.get(c, 0):
                 letter_results[i] = LetterState.PRESENT
                 count_dict[c] -= 1
+        return letter_results
+
+    def __get_guess_result(self, guess: Guess) -> GuessResult:
+        letter_results = Word._get_letter_matches(self.word, guess.guess_word)
         if self.word == guess.guess_word:
             self.solved = True
         return GuessResult(guess_word=guess.guess_word, letter_results=letter_results, player_name=guess.player_name)
