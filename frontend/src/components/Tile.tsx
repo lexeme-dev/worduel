@@ -25,7 +25,7 @@ function Tile(props: TileProps) {
     <Card className={ "tile text-nowrap " + stateVariantMap[props.letterState] + (props.small ? " tile-small" : "")}>
       <Card.Body>
         <Card.Text>
-          <div className="overlay">
+          <div className={"overlay" + (props.small ? "overlay-small" : "")}>
             { props.letter.toString() === " " ?
               <Fragment>&nbsp;</Fragment> :
               props.letter.toString().toUpperCase()
